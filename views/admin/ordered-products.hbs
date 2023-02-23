@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <div class="sub-container thehome">
+        <div class="p-3">
+            <h1 class="thenewarrival">Ordered Products</h1>
+            <br>
+            <div class="theArea">           
+                <div class="card">
+                    <h5 class="card-header">Orders</h5>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {{#each order}}
+
+                                {{#each product}}
+                                <tr>
+                                    <td>{{name}}</td>
+                                    <td>{{quantity}}</td>
+                                    <td>₹{{price}}</td>
+                                </tr>
+                                {{/each}}
+
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="theArea">           
+                <div class="card">
+                    {{#each order}}
+                    <h5 class="card-header" >User Name</h5>
+                    <h4>{{userDetails.0.name}}</h4>
+                    <h5 class="card-header">Ordered Address</h5> 
+                    <h6>{{addressId}}</h6>
+                    <h5 class="card-header">Ordered Date</h5>
+                    <h6>{{date}}</h6>
+                    {{#ifeq status "Delivered"}}
+                    <h5 class="card-header">Delivered Date</h5>
+                    <h6>{{delivery_date}}</h6>
+                    {{/ifeq}}
+                    {{#ifnoteq status "Delivered"}}
+                    <h5 class="card-header">Delivered Date</h5>
+                    <h6>Not Delivered</h6>
+                    {{/ifnoteq}}
+                    {{/each}}
+                </div>
+            </div>
+            <div class="pt-5">
+                <h6 class="mb-0"><a href="orders" class="text-body text-decoration-none"><i
+                            class="fas fa-long-arrow-alt-left me-2"></i>Back</a></h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#list_orderedproducts').DataTable();
+    });
+</script>

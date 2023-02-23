@@ -1,0 +1,121 @@
+<section style="background-color:  #eee;">
+    <div class="container  h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                                        aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                                        aria-label="Slide 3"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                    {{#each banner}}
+                                    <div class="carousel-item {{#if @first}} active{{/if}} data-bs-interval=" 2000" ">
+                        <img src=" /productImages/{{this.image}}" class="d-block w-100 " alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5 class="text-muted">{{this.name}}</h5>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="rounded-3" style="background-color: #eee;">
+    <div class="text-center container py-5">
+        <h4 class="mt-4 mb-5"><strong>Shop According to Category</strong></h4>
+        <div class="row">
+            {{#each category}}
+            <!-- Start Column 1 -->
+            <div class="col-md-4 col-sm-12 d-flex justify-content-center p-3">
+                <a class="product-item text-decoration-none eniac-text" href="/viewproducts?categoryid={{this._id}}">
+                    <h3 class="product-title">{{this.name}}</h3>
+                </a>
+            </div>
+            <!-- End Column 1 -->
+            {{/each}}
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+<section class="rounded-3" style="background-color: #eee;">
+    <div class="text-center container py-5">
+        <h4 class="mt-4 mb-5"><strong>New Arrivals</strong></h4>
+
+        <div class="row">
+            {{#each products}}
+            <div class=" col-lg-3 col-md-12 mb-3">
+                <div class="card ">
+                    <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                        data-mdb-ripple-color="light">
+
+                        <a href="/productview?id={{this._id}}"> <img src="/productImages/{{this.image.[0]}}"
+                                class="w-100" alt="..." width="200px" height="210px"></a>
+                        <div class="hover-overlay">
+                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);">
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <a href="" class="text-reset text-decoration-none ">
+                            <p>{{Product.0.name}}</p>
+                        </a>
+                        <a href="" class="text-reset text-decoration-none ">
+                            <h6 class="card-title mb-3 ">{{this.name}}</h6>
+                        </a>
+
+                        <span class="text-danger act-price text-decoration-line-through">
+                            ₹{{this.fake_price}}/-
+                        </span>
+                        <h6 class="mb-3">₹{{this.price}}</h6>
+
+                    </div>
+
+                    <div class="card-body">
+                        <a href="/addtowishlist?id={{this._id}}" class="btn the-userdbutton">Add to
+                            Wishlist</a>
+                        {{#if this.stock}}
+                        <a class="btn the-userbutton" href="/addtocart?id={{this._id}}">Add to Cart</a>
+                        {{else}}
+                        <a class="text-decoration-none text-danger " href=""><strong>Out of
+                                stock</strong></a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</section>

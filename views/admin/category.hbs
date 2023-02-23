@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <div class="sub-container thehome">
+        <div class="p-3">
+            <h1 class="thenewarrival">Category Management</h1>
+            <br>
+            <div class="theArea">
+                
+                <div class="card">
+                    <div class="d-flex justify-content-between p-3" >
+                        <h5 >Category</h5>
+                        <a href="/admin/addcategory" class="btn btn-success">Add category</a>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {{#each category}}
+                                <tr>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.status}}</td>
+                                    <td>
+                                        <a href="/admin/editcategory?id={{this._id}}" class="btn btn-primary w-25">Edit</a>
+                                        {{#ifeq this.status "Active"}}
+                                        <a href="/admin/deletecategory?id={{this._id}}" class="btn btn-danger w-25"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">Delete</a>
+                                        {{/ifeq}}
+
+                                        {{#ifeq this.status "Inactive"}}
+                                        <a href="/admin/restorecategory?id={{this._id}}"
+                                            class="btn btn-success  w-25">Restore</a>
+                                        {{/ifeq}}
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <a href="/admin/deletecategory?id={{this._id}}"><button type="button"
+                                                        class="btn btn-danger">Delete</button></a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#list_category').DataTable();
+    });
+</script>

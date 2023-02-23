@@ -1,0 +1,73 @@
+<div class="container-fluid">
+    <div class="sub-container thehome">
+        <div class="p-3">
+            <h1 class="thenewarrival">Banner Management</h1>
+            <br>
+            <div class="theArea">
+                <div class="card">
+                    <div class="d-flex justify-content-between p-3" >
+                        <h5 >Banner</h5>
+                        <a href="/admin/addbanner" class="btn btn-success">Add banner</a>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {{#each banner}}
+                                <tr>
+                                    <td>{{this.name}}</td>
+                                    <td><img src="/productImages/{{this.image}}" alt="..." class="img-fluid"></td>
+                                    <td>
+                                        <a href="/admin/editbanner?id={{this._id}}" class="btn btn-primary w-50">Edit</a>
+                                        <a href="/admin/deletebanner?id={{this._id}}" class="btn btn-danger w-50 "
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">Delete</a>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <a href="/admin/deletebanner?id={{this._id}}"><button type="button"
+                                                        class="btn btn-danger">Delete</button></a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#list_banners').DataTable();
+    });
+</script>

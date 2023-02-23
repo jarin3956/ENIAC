@@ -1,0 +1,135 @@
+
+
+
+<section style="background-color: #eee;">
+    <div class=" p-5 container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-5">
+                        <div>
+                            <div>
+                                <p class="text-center h1  mb-5 mx-1 mx-md-4 mt-4">Contact Us</p>
+                                <div class="row">
+                                    <div class="col-md-8 contact-form ">
+                                        <form method="post" id="frmSubmit" onsubmit="return validateForm()"
+                                            name="contactForm">
+                                            <input type="text" name="name" id="name" placeholder="Name"
+                                                class="form-control">
+                                            <span class="error" id="nameErr"></span>
+                                            <input type="text" name="email" id="email" placeholder="Email Address"
+                                                class="form-control">
+                                            <span class="error" id="emailErr"></span>
+                                            <input type="text" name="mobile" id="mobile" placeholder="Mobile"
+                                                class="form-control">
+                                            <span class="error" id="mobileErr"></span>
+                                            <textarea name="message" id="message" type="text" placeholder="Message"
+                                                class="form-control" style="height:150px;"></textarea>
+                                            <span class="error" id="messageErr"></span><br>
+                                            <button class="btn the-userbutton" type="submit">Send</button>
+                                            <div id="alert_placeholder"></div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-4 mt-md-0 mt-5 w3-contact-address">
+                                        <b>Address:</b>
+                                        <p>Puttapa layout,</p>
+                                        <p>New Tippasandra,</p>
+                                        <p>IndiraNagar,</p>
+                                        <p>Banglore, Karnataka.</p>
+                                        <br />
+                                        <b>Phone:</b>
+                                        <p><a href="" class="text-decoration-none text-dark">+91-8848518328</p>
+                                        <br />
+                                        <b>Email:</b>
+                                        <p><a href="" class="text-decoration-none text-dark">admineniac@gmail.com</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    // Defining a function to display error message
+    function printError(elemId, hintMsg) {
+        document.getElementById(elemId).innerHTML = hintMsg;
+    }
+    // Defining a function to validate form 
+    function validateForm() {
+        var name = document.contactForm.name.value;
+        var email = document.contactForm.email.value;
+        var mobile = document.contactForm.mobile.value;
+        var message = document.contactForm.message.value;
+        var nameErr = emailErr = mobileErr = countryErr = messageErr = true;
+        if (name == "") {
+            printError("nameErr", "Please enter your name");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;
+            if (regex.test(name) === false) {
+                printError("nameErr", "Please enter a valid name");
+            } else {
+                printError("nameErr", "");
+                nameErr = false;
+            }
+        }
+        if (email == "") {
+            printError("emailErr", "Please enter your email address");
+        } else {
+            var regex = /^\S+@\S+\.\S+$/;
+            if (regex.test(email) === false) {
+                printError("emailErr", "Please enter a valid email address");
+            } else {
+                printError("emailErr", "");
+                emailErr = false;
+            }
+        }
+        if (mobile == "") {
+            printError("mobileErr", "Please enter your mobile number");
+        } else {
+            var regex = /^[1-9]\d{9}$/;
+            if (regex.test(mobile) === false) {
+                printError("mobileErr", "Please enter a valid 10 digit mobile number");
+            } else {
+                printError("mobileErr", "");
+                mobileErr = false;
+            }
+        }
+        if (message == "") {
+            printError("messageErr", "Please enter the message");
+        } else {
+            printError("messageErr", "");
+            messageErr = false;
+        }
+
+        if ((nameErr || emailErr || mobileErr || messageErr) != true) {
+            var form = document.getElementById('frmSubmit');
+            var xhr = new XMLHttpRequest();
+            var data = new FormData(form);
+            console.log(data);
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzBzBFIUcOYcWgv7gLvdMCCWIFm0oCHRkRGWWUncVJfTsxIj33q9Dm4nZqU9TrON6bg/exec')
+            xhr.send(data);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    form.reset();
+                }
+            }
+            form.reset();
+            Swal.fire(
+                'Success!',
+                'Will contact you soon',
+                'success'
+            );
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+</script>

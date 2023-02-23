@@ -1,0 +1,20 @@
+<div class="container-fluid login-cont">
+    <div class="sub-container">
+        <div class="inner">
+            <form action="" method="post">
+                <h1 class="text-center">eniac</h1>
+                <br>
+                <span class="text-danger">{{message}}</span>
+                <br>
+                <input class="form-control" for="otp" type="otp" name="otp" placeholder="enter otp to verify"
+                    required="">
+                <input name="hidden" hidden="" value="{{users.email}}">
+                <br>
+                <input type="submit" value="Verify" class="btn btn-dark ">
+                <br><br>
+                <a href="/resendotp" class="btn btn-dark">Resend</a>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>

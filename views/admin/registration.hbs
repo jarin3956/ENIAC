@@ -1,0 +1,23 @@
+<div class="container-fluid login-cont">
+    <div class="sub-container">
+        <div class="inner">
+            <form action="" method="post">
+                <h2 class="text-center">admin reg</h2>
+                <br>
+                <input class="form-control" type="text" name="name" placeholder="enter name"
+                    pattern="^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$" required>
+                <br>
+                <input class="form-control" type="text" name="email" placeholder="enter mail id"
+                    pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$" required>
+                <br>
+                <input class="form-control" type="password" name="password" placeholder="enter password" required>
+                <br>
+                <input class="form-control" type="password" name="conpassword" placeholder="reenter password" required>
+                <br>
+                <input type="submit" value="Register" class=" btn cust-btn mt-2">
+                <br>
+                <span class="text-danger">{{message}}</span>
+            </form>
+        </div>
+    </div>
+</div>

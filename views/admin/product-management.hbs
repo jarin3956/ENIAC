@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="sub-container thehome">
+        <div class="p-3">
+            <h1 class="thenewarrival">Product Management</h1>
+            <br>
+            <div class="theArea">
+                <div class="card">
+                    <div class="d-flex justify-content-between p-3" >
+                        <h5  >Products</h5>
+                        <a href="/admin/addproduct" class="btn btn-success">Add product</a>
+                    </div>
+                    
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Fake price</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {{#each products}}
+                                <tr>
+                                    <td>{{this.name}}</td>
+                                    <td><img src="/productImages/{{this.image.[0]}}" alt="..." class="img-fluid"></td>
+                                    <td>₹{{this.price}}</td>
+                                    <td>₹{{this.fake_price}}</td>
+                                    <td>{{this.stock}}</td>
+                                    <td>{{Product.0.name}}</td>
+                                    <td>
+                                        {{#if is_deleted}}
+                                        <p class="text-danger">Deleted</p>
+                                        {{else}}
+                                        <p class="text-success">Not deleted</p>
+                                        {{/if}}
+                                    </td>
+                                    <td>
+                                        <a href="/admin/editproduct?id={{this._id}}" class="btn btn-primary w-100">Edit</a>
+                                        <br><br>
+                                        {{#ifeq this.is_deleted false}}
+                                        <a href="/admin/deleteproduct?id={{this._id}}" class="btn btn-danger w-100"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">Delete</a>
+                                        {{/ifeq}}
+
+                                        {{#ifeq this.is_deleted true}}
+                                        <a href="/admin/restoreproduct?id={{this._id}}"
+                                            class="btn btn-success">Restore</a>
+                                        {{/ifeq}}
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <a href="/admin/deleteproduct?id={{this._id}}"><button type="button"
+                                                        class="btn btn-danger">Delete</button></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#list_product').DataTable();
+    });
+</script>

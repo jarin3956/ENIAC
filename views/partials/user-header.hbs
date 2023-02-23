@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <p class="fs-1"><strong>eniac</strong></p>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="home">Home</a>
+                </li>   
+                <li class="nav-item">
+                    <a class="nav-link active" href="aboutus">About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="contactus">Contact Us</a>
+                </li>   
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <form class="d-flex" action="/search" method="post">
+                    <input class="form-control me-2" name="text" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn the-userbutton" type="submit">Search</button>
+                </form>
+            </ul>
+            <form class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {{#if logged}}
+                <li class="nav-item">
+                    <a class="nav-link " href="profile"><i class="fa-solid fa-user"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="wishlist"><i class="fa-sharp fa-solid fa-heart"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="cart" ><i class="fa-solid fa-cart-shopping"></i></a>
+                </li>
+                <a class="btn the-userbutton " data-bs-toggle="modal" href="#exampleModalToggle"
+                    role="button">Logout</a>
+                {{else}}
+                <a class="btn the-userbutton " href="login" role="button">Login</a>
+                {{/if}}
+                
+            </ul>
+                
+            </form>
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" data-bs-backdrop="static"
+                data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5> <strong>Are you sure to Logout ?</strong></h5>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a class="btn btn-danger" href="/logout" role="button">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>

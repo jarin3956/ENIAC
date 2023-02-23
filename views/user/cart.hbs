@@ -1,0 +1,169 @@
+<section style="background-color:  #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="d-flex justify-content-between align-items-center mb-5">
+                    <h1 class=" mb-0 text-black">Cart</h1>
+                  </div>
+                  <hr class="my-4">
+                  {{#if length}}
+                  {{#each cartProducts}}
+                  <form action="/proceedtocheckout" method="post">
+                    <div class="row mb-4 d-flex justify-content-between align-items-center ">
+                      <div class="col-md-2 col-lg-2 col-xl-2">
+                        <a href="/productview?id={{this._id}}"><img src="/productImages/{{this.image.[0]}}" class=" img-fluid rounded-3 " alt="..." /></a>
+                      </div>
+                      <div class="col-md-3 col-lg-3 col-xl-3">
+                        
+                        <h6 class="text-black mb-0">{{this.name}} </h6>
+                      </div>
+                      <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                        <a class="btn the-userbutton" 
+                        onclick="this.parentNode.querySelector('input[type=number]').stepDown();validateData('{{this._id}}')"> &nbsp;-&nbsp;</a>&nbsp;&nbsp;
+                        <div class="form-outline">
+                          
+
+                          <input style="width: 5rem;" class="form-control" type="number" id="{{this._id}}" min="1" name="quantity"
+                            pattern="{{this._id}}" max="{{this.stock}}" value="1" onchange="validateData('{{_id}}')" />
+                          
+                        </div>&nbsp;&nbsp;
+                        
+                        <a class="btn the-userbutton"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepUp();validateData('{{this._id}}')"> &nbsp;+&nbsp; </a>
+                        
+                        <div class="form-outline">
+                          <div class="fs-lg text-accent pt-2 price">
+                            <div id="get">
+                              <p id="actual_price_{{this._id}}" hidden="">{{this.price}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                        <h6 class="mb-0">₹{{this.price}}</h6>
+                        <span id="price_text_{{this._id}}">{{this.price}} </span>
+                      </div>
+                      <div class="col-md-3 col-lg-2 col-xl-2 text-end d-flex justify-content-between">
+                        <a href=""  onclick="removeCartProduct('{{_id}}')" class="text-danger" style="font-size: xx-large;" ><i class="fa-solid fa-trash"></i></a>
+                        <a href="/carttowishlist?id={{this._id}}"  class="text-danger" style="font-size: xx-large;"><i class="fas fa-heart"></i></a>
+                      </div>
+                      
+                      
+                    </div>
+
+                    {{/each}}
+
+
+                    <hr class="my-4">
+
+                    <div class="pt-5">
+                      <h6 class="mb-0"><a href="home" class="text-body text-decoration-none"><i
+                            class="fas fa-long-arrow-alt-left me-2"></i>Shop More</a></h6>
+                    </div>
+                </div>
+              </div>
+              <div class="col-lg-4 bg-grey" style="border-radius: 15px;" >
+                <div class="p-5">
+                  <h3 class="fw-bold mb-5 mt-2 pt-1 text-white">Summary</h3>
+                  <hr class="my-4">
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase text-white">Price</h5>
+                    <h3 id="subtotal" class="fw-normal text-white">{{subtotal}}</h3>
+                  </div>
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase mb-3 text-white">Delivery</h5>
+                    <h4 id="deliverycharges" class="fw-normal text-success">FREE</h4>
+                  </div>
+
+
+                  <hr class="my-4">
+
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase text-white">Amount Payable</h5>
+                    <h2 id="finalprice" class="fw-normal text-white">{{subtotal}}</h2>
+                  </div>
+                  {{#unless subtotal}}
+                  <button type="button" class="btn btn-light btn-lg btn-block disabled ">
+                    Checkout
+                  </button>
+                  {{else}}
+                  <button type="submit" class="the-userspbutton btn-lg">
+                    Checkout
+                  </button>
+                  </form>
+                  {{/unless}}
+
+                </div>
+              </div>
+              {{else}}
+
+              <img src="https://tse3.mm.bing.net/th?id=OIP.wPbsYmMcxEa_Bj86KKUAFQHaHa&pid=Api&P=0" alt=""
+                style="width: 20vw; height: 25vh;">
+              <h1>cart empty</h1>
+              {{/if}}
+              <hr class="my-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  async function removeCartProduct(cartProductid) {
+    let response = await fetch('/removecartproduct/' + cartProductid, {
+      method: 'DELETE', headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    let res = await response.json();
+    if (res == "success") {
+
+      window.location.reload()
+
+    }
+
+  }
+
+
+  function validateData(id) {
+    const element = document.getElementById(id)
+    const priceText = document.getElementById('price_text_' + id)
+    const price = document.getElementById('actual_price_' + id)
+    const subtotal = document.getElementById('subtotal')
+    const finalprice = document.getElementById('finalprice')
+    if (Number(element.value) > Number(element.max))
+      element.value = element.max
+    const rate = priceText.innerHTML
+    priceText.innerHTML = Number(price.innerHTML) * Number(element.value)
+    const diff = Number(priceText.innerHTML) - Number(rate)
+    subtotal.innerHTML = Number(diff) + Number(subtotal.innerHTML)
+    finalprice.innerHTML = subtotal.innerHTML
+
+    async function proceedTocheckout() {
+      const quantity = Object.values(document.getElementsByName('quantity')).map((cartProduct) => (
+        {
+          productid: cartProduct.id,
+          quantity: cartProduct.value
+        }
+      ))
+
+      let response = await fetch('/proceedtocheckout', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify(quantity)
+      });
+
+    }
+  } 
+</script>
