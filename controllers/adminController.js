@@ -222,6 +222,7 @@ const editProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        console.log("check")
     }
 }
 
