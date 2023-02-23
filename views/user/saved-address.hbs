@@ -1,0 +1,77 @@
+
+
+
+
+
+
+<section style="background-color: #eee;">
+    <div class=" p-5 container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-5">
+                        <div>
+                            <div >
+                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add Address</p>
+                                <div class="d-flex justify-content-left mb-2 p-3">
+                                    <a class="btn the-userbutton" href="/addaddress">Add New Address</a>
+                                </div>
+                                <div class="row">
+                                    {{#each address}}
+                                    <div class="col-md-6">
+                                        <div class="bg-white card addresses-item mb-4 border border-primary shadow">
+                                            <div class="gold-members p-4">
+                                                <div class="media">
+                                                    <div class="mr-3"><i class="icofont-ui-home icofont-3x"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1 text-secondary">{{deliver_to}}</h6>
+                                                        <p class="text-black">{{name}} &nbsp &nbsp
+                                                            &nbsp<b>{{number}}</b>
+                                                        </p>
+                                                        <p>{{house}}</p>
+                                                        <p>{{city}}, {{state}}, {{country}}</p>
+                                                        <p>{{pincode}} </p>
+                                                        <a class="btn the-userdbutton"
+                                                            href="/deleteaddress?id={{this._id}}" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal{{@index}}">DELETE</a>
+                                                        <a class="btn the-userbutton"
+                                                            href="/editaddress?id={{this._id}}">Edit</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <a href="/deleteaddress?id={{this._id}}"><button type="button"
+                                                            class="btn btn-danger">Delete</button></a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

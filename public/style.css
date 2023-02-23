@@ -1,0 +1,315 @@
+body{
+  overflow-x: hidden;
+}
+.thetest {
+  color: rgb(24, 26, 26);
+}
+
+.login-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(105, 12, 162);
+
+}
+
+.login-contain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgb(105, 12, 162);
+
+}
+
+.inner {
+  padding: 50px;
+  border-radius: 16px;
+  color: black;
+  background-color: white;
+}
+
+
+.form-control:focus {
+  color: rgb(37, 35, 35);
+  background-color: rgb(182, 231, 245);
+  border-color: rgb(151, 141, 192);
+}
+
+.cust-btn {
+  padding: 5px 30px;
+  border-radius: 22px;
+  background-color: rgb(105, 12, 162);
+  color: white;
+}
+
+.userbutton {
+  background-color: rgb(105, 12, 162);
+  color: white;
+  border-radius: 22px;
+}
+
+.the-userbutton {
+  background-color: rgb(105, 12, 162);
+  color: white;
+  border-radius: 22px;
+}
+
+.the-userbutton:hover {
+  background-color: white;
+  color: rgb(105, 12, 162);
+  border-radius: 22px;
+}
+
+.the-userdbutton {
+  background-color: rgb(255, 0, 204);
+  color: white;
+  border-radius: 22px;
+}
+
+.the-userdbutton:hover {
+  background-color: white;
+  color: rgb(255, 0, 166);
+  border-radius: 22px;
+}
+
+.the-userspbutton {
+  background-color: white;
+  color: rgb(105, 12, 162);
+  border-radius: 22px;
+}
+
+.the-userspbutton:hover {
+  background-color: rgb(105, 12, 162);
+  color: white;
+  border-radius: 22px;
+}
+
+.thehome {
+  margin: 20px;
+  background-color: blueviolet;
+  height: auto;
+  border-radius: 20px;
+}
+
+.cards {
+  padding: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.thenewarrival {
+  padding-left: 5%;
+  color: white;
+}
+
+.theArea {
+  background-color: white;
+}
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: rgb(105, 12, 162);
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+}
+
+
+/* zoom */
+.zoom-image-container {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+.zoom-image {
+
+  position: relative;
+
+}
+
+.zoom-image img {
+
+  cursor: zoom-in;
+
+
+  /* box-shadow: 0 18px 5px -15px rgba( 0, 0, 0, .5 ); */
+
+}
+
+.hover-image {
+
+  position: fixed;
+  width: 300px;
+  height: 300px;
+
+  border-radius: 10%;
+
+  transform: translate(-0%, -20%);
+
+  pointer-events: none;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+
+}
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: rgb(105, 12, 162);
+
+  /* Chrome 10-25, Safari 5.1-6 
+  background: -webkit-linear-gradient(to top left, #6a11cb, rgba(246, 243, 255, 1));*/
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ 
+  background: linear-gradient(to top left, #6a11cb, rgba(246, 243, 255, 1))*/
+}
+
+
+@media (min-width: 1025px) {
+  .h-custom {
+    height: 100vh !important;
+  }
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+  top: 13px;
+}
+
+.bg-grey {
+  background-color: #eae8e8;
+}
+
+@media (min-width: 992px) {
+  .card-registration-2 .bg-grey {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+@media (max-width: 991px) {
+  .card-registration-2 .bg-grey {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+
+
+
+/*cart*/
+
+
+
+
+@media (min-width: 1025px) {
+  .h-custom {
+    height: 100vh !important;
+  }
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+  top: 13px;
+}
+
+.bg-grey {
+  background-color: rgb(105, 12, 162);
+}
+
+@media (min-width: 992px) {
+  .card-registration-2 .bg-grey {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+@media (max-width: 991px) {
+  .card-registration-2 .bg-grey {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+.eniac-text{
+  color: rgb(105, 12, 162);
+}
+
+
+
+
+
+
+/*button*/
+
+.eniacbutton {
+  --color: #560bad;
+  font-family: inherit;
+  display: inline-block;
+  width: 8em;
+  height: 2.6em;
+  line-height: 2.5em;
+  margin: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--color);
+  transition: color .5s;
+  z-index: 1;
+  font-size: 17px;
+  border-radius: 6px;
+  font-weight: 500;
+  color: var(--color);
+ }
+ 
+ .eniacbutton:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background: var(--color);
+  height: 150px;
+  width: 200px;
+  border-radius: 50%;
+ }
+ 
+ .eniacbutton:hover {
+  color: #fff;
+ }
+ 
+ .eniacbutton:before {
+  top: 100%;
+  left: 100%;
+  transition: all .7s;
+ }
+ 
+ .eniacbutton:hover:before {
+  top: -30px;
+  left: -30px;
+ }
+ 
+ .eniacbutton:active:before {
+  background: #3a0ca3;
+  transition: background 0s;
+ }
+
+

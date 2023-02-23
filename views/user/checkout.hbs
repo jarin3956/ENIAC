@@ -1,0 +1,374 @@
+<section style="background-color: #eee;">
+    <div class=" p-5 container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-5">
+                        <div class="row billing-fields">
+                            <div class="col-md-12 sm-margin-30px-bottom p-3">
+                                <center>
+                                    <div class="create-ac-content bg-light-gray padding-20px-all ">
+                                        <br><br>
+                                        <h2>Deliver to:</h2>
+                                        <br>
+                                        <div class="row">
+                                            <select selected class="form-control" id="addressform"
+                                                onchange="addressValue()">
+                                                {{#each address}}
+                                                <option {{_id}}>
+                                                    {{name}},{{house}},{{city}},{{pincode}},{{state}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <center>
+                                                <a href="/checkoutaddaddress"
+                                                    class=" btn the-userbutton btn-lg"><strong>Add new
+                                                        Address</strong></a>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </center>
+                            </div>
+                        </div>
+                        <div class=" col-md-12 p-3">
+                            <div class="your-order-payment ">
+
+                                <div class="your-order">
+                                    <h2 class="order-title mb-4">Your Order</h2>
+                                    <div class="table-responsive-sm order-table table-bordered">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Image</th>
+                                                    <th scope="col"> Name</th>
+                                                    <th scope="col">Quantiy</th>
+                                                    <th scope="col">Price</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each productDetails}}
+                                                <tr>
+                                                    <td><img src="/productImages/{{this.image.[0]}}" width="50px"
+                                                            height="50px" alt="..." /></td>
+                                                    <td>{{this.name}}</td>
+                                                    <td>{{this.quantity}}</td>
+                                                    <td>₹{{this.price}}</td>
+                                                    <input type="hidden" name="productid" value="{{this._id}}">
+                                                    <input type="hidden" name="productname" value="{{this.name}}">
+                                                    <input type="hidden" name="price" value="{{this.price}}">
+                                                    <input type="hidden" name="quantity" value="{{this.quantity}}">
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td><strong>Total amount payable</strong></td>
+                                                    <td></td>
+                                                    <td><strong>₹{{subtotal}}-/only</strong></td>
+                                                    <input type="hidden" name="totalamount" id="subtotal"
+                                                        value="{{subtotal}}">
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="cccoupon">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        Offer
+                                        <h3 id="offer" class="fw-normal">{{offer}}</h3>
+                                    </li>
+
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                        <div>
+                                            <strong>Total amount</strong>
+                                        </div>
+                                        <h3 id="gtotal" class="fw-normal">{{grandTotal}}</h3>
+                                    </li>
+                                    <div class="card mb-4">
+                                        <div class="card-header py-3">
+                                            <h5 class="mb-0">Apply Promo Code</h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <ul class="list-group list-group-flush">
+
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                                    Code
+                                                    <input type="text" id="couponCode" name="coupon">
+                                                    <br>
+                                                </li>
+                                                <br>
+                                            </ul>
+                                            <button class="btn the-userbutton btn-lg" onclick="checkCoupon()">
+                                                Apply Code
+                                            </button>
+                                            <span id="errorMessage"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <center>
+                                    <hr>
+                                </center>
+
+                                <div class="your-payment ">
+                                    <h2 class="payment-title mb-3">Payment Method</h2>
+                                    <br><br>
+                                    <div class="payment-method">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment" value="1"
+                                                onclick="radioValue()">
+                                            <label class="form-check-label" for="payment1">
+                                                Cash On Delivery
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment" value="2"
+                                                onclick="radioValue()">
+                                            <label class="form-check-label" for="payment1">
+                                                Razorpay
+                                            </label>
+                                        </div>
+
+                                        <hr>
+                                        <div class="order-button-payment">
+                                            <button class="btn the-userbutton btn-lg" id="placeOrderButton"
+                                                onclick="checkplaceOrder()" type="submit" disabled>Placeorder</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+    let finalPriceAmount;
+    let payment;
+    let orderPrice;
+    orderPrice = Number(document.getElementById('subtotal').value)
+    {{!-- let grandTotal = Number(document.getElementById('gtotal').innerHTML)
+    grandTotal = grandTotal * 100; --}}
+    finalPriceAmount = orderPrice;
+
+    {{!-- const amount = document.getElementById("gtotal").innerHTML * 100 --}}
+
+
+    async function checkCoupon() {
+        
+        const coupon = document.getElementById('couponCode').value;
+        console.log(coupon)
+        let valCoupon = await fetch('/validateCoupon', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: coupon }),
+        });
+        let response = await valCoupon.json()
+
+        if (response == "fail") {
+            document.getElementById("errorMessage").innerHTML = "Coupon Invalid";
+
+        } else if (response == "NOT") {
+            document.getElementById("errorMessage").innerHTML = "Coupon Not Found";
+        }
+        else {
+
+
+            let offer = document.getElementById("offer").innerHTML = Number(response)
+            console.log(Number(response))
+
+            let subtotal = document.getElementById('subtotal').value
+
+            let gtotal = document.getElementById('gtotal').innerHTML
+
+            const amt = Number(subtotal) * Number(offer) / 100
+
+            gtotal = gtotal - amt
+
+            finalPriceAmount = gtotal;
+            
+            console.log(gtotal+"HAI")
+
+            document.getElementById('gtotal').innerHTML = gtotal
+
+        }
+    }
+
+
+    async function radioValue() {
+        document.getElementById('placeOrderButton').disabled = false
+    }
+
+
+    async function checkplaceOrder() {
+        payment = Object.values(document.getElementsByName('payment')).filter((item) => item.checked ? item : '').map((item) => item.value)
+        if (payment[0] === '1') {
+            placeOrder();
+            console.log(payment)
+        } else {
+
+            var orderId;
+            {{!-- orderPrice = grandTotal; --}}
+            orderPrice = finalPriceAmount;
+
+            $(document).ready(function () {
+
+                var settings = {
+                    url: "/create/orderId",
+                    method: "POST",
+                    timeout: 0,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: JSON.stringify({
+                        {{!-- amount: document.getElementById('gtotal').innerHTML, //CHANGE THE AMOUNT AS NEEDED --}}
+                        amount : finalPriceAmount 
+                    }),
+                };
+
+                //creates new orderId everytime
+                $.ajax(settings).done(function (response) {
+                    orderId = response.orderId;
+                    console.log(orderId);
+                });
+            });
+            console.log(orderPrice)
+            document.getElementById("placeOrderButton").onclick = function (e) {
+                var options = {
+                    key: "rzp_test_PV96s4rYG605ex", // Enter the Key ID generated from the Dashboard
+                    amount : finalPriceAmount *100,
+                    {{!-- amount: document.getElementById('gtotal').innerHTML * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise --}}
+                    currency: "INR",
+                    name: "eniac",
+                    description: "Test Transaction",
+                    image: "https://example.com/your_logo",
+                    order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    handler: function (response) {
+                        {{!-- alert(response.razorpay_payment_id);
+                        alert(response.razorpay_order_id);
+                        alert(response.razorpay_signature); --}}
+                        var settings = {
+                            url: "/api/payment/verify",
+                            method: "POST",
+                            timeout: 0,
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            data: JSON.stringify({ response }),
+                        };
+                        console.log(response)
+                        $.ajax(settings).done(function (response) {
+                            placeOrder();
+                            {{!-- alert(JSON.stringify(response)); --}}
+                        });
+                    },
+
+                    theme: {
+                        color: "#0000FF",
+                    },
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.on("payment.failed", function (response) {
+                    alert(response.error.code);
+                    alert(response.error.description);
+                    alert(response.error.source);
+                    alert(response.error.step);
+                    alert(response.error.reason);
+                    alert(response.error.metadata.order_id);
+                    alert(response.error.metadata.payment_id);
+                });
+                rzp1.open();
+                e.preventDefault();
+            };
+
+
+        }
+    }
+
+
+
+    async function placeOrder() {
+        const productid = Object.values(document.getElementsByName('productid')).map((item) => item.value)
+        const productname = Object.values(document.getElementsByName('productname')).map((item) => item.value)
+        const price = Object.values(document.getElementsByName('price')).map((item) => item.value)
+        const quantity = Object.values(document.getElementsByName('quantity')).map((item) => item.value)
+        const addressId = document.getElementById('addressform').value
+        const orderPrice = Object.values(document.getElementsByName('totalamount')).map((item) => item.value)
+        {{!-- const orderPrice = finalPriceAmount.map((item) => item.value) --}}
+
+        const coupon = document.getElementById('couponCode').value
+
+        console.log(orderPrice)
+
+
+        let data = {
+            productid: productid,
+            productname: productname,
+            price: price,
+            quantity: quantity,
+            addressId: addressId,
+            orderPrice:orderPrice,
+            payment: payment,
+            coupon: coupon
+        }
+        console.log(data)
+
+        try {
+
+            const orderPlacement = await fetch('/placeorder', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            let res = await orderPlacement.json()
+            if (res == "success") {
+                Swal.fire({
+                    title: 'Success',
+                    text: "Item ordered successfully !",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK',
+                    timer: 3000
+                }).then((res) => {
+                    window.location.href = '/ordersuccess'
+                })
+            } else
+                Swal.fire({
+                    title: 'Something went wrong',
+                    text: "something went wrong !",
+                    icon: 'failure',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK',
+                    timer: 3000
+                }).then((res) => {
+                    window.location.href = '/home'
+                })
+
+
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+</script>
