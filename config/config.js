@@ -5,7 +5,7 @@ const sessionSecrets = process.env.session
 const connectDb = () => {
     const mongoose = require("mongoose");
     mongoose.set('strictQuery',false);
-    mongoose.connect(process.env.data_url+process.env.database);
+    mongoose.connect(process.env.data_url);
 }
 
 //const accountSid = "ACc7ac0f552d53cb10f3d01f516b02324c";
