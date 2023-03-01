@@ -1,21 +1,28 @@
-<div class="container-fluid">
-    <div class="sub-container thehome">
-        <div class="p-3">
-            <h1 class="thenewarrival">Ordered Products</h1>
-            <br>
-            <div class="theArea">           
-                <div class="card">
-                    <h5 class="card-header">Orders</h5>
-                    <div class="table-responsive text-nowrap">
-                        <table class="table" id="">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Product name</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
+
+
+
+<section class="rounded-3" style="background-color: #eee;">
+    <div class="text-center container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                        <h2>Ordered Products</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="basic-data-table">
+                            <table id="basic-data-table" class="table nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th >Product name</th>
+                                    <th >Quantity</th>
+                                    <th >Price</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody >
                                 {{#each order}}
 
                                 {{#each product}}
@@ -28,14 +35,11 @@
 
                                 {{/each}}
                             </tbody>
-                        </table>
-                        
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="theArea">           
-                <div class="card">
-                    {{#each order}}
+                    <div class="card-body">
+                        {{#each order}}
                     <h5 class="card-header" >User Name</h5>
                     <h4>{{userDetails.0.name}}</h4>
                     <h5 class="card-header">Ordered Address</h5> 
@@ -51,20 +55,18 @@
                     <h6>Not Delivered</h6>
                     {{/ifnoteq}}
                     {{/each}}
+                    </div>
                 </div>
             </div>
-            <div class="pt-5">
+        </div>
+        <div class="pt-5">
                 <h6 class="mb-0"><a href="orders" class="text-body text-decoration-none"><i
                             class="fas fa-long-arrow-alt-left me-2"></i>Back</a></h6>
             </div>
-        </div>
     </div>
-</div>
+</section>
 
 
 
-<script>
-    $(document).ready(function () {
-        $('#list_orderedproducts').DataTable();
-    });
-</script>
+
+

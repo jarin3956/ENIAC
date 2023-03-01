@@ -1,0 +1,107 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="text-white mt-5 mb-5">Welcome , <b>Admin</b></p>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block">
+                <h2 class="tm-block-title">Line Chart</h2>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block">
+                <h2 class="tm-block-title">Bar Chart</h2>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-taller">
+                <h2 class="tm-block-title">Pie Chart</h2>
+                <div id="pieChartContainer">
+                    <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-taller">
+                <h2 class="tm-block-title">Payment Method</h2>
+                <div id="donutChartContainer"> 
+                    <canvas id="donutChart" class="chartjs-render-monitor" width="200" height="200" ></canvas>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-12 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+                <h2 class="tm-block-title">Orders List</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ORDER NO.</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">PAYMENT</th>
+                            {{!-- <th scope="col">LOCATION</th> --}}
+                            <th scope="col"> AMOUNT</th>
+                            <th scope="col">START DATE</th>
+                            {{!-- <th scope="col">EST DELIVERY DUE</th> --}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each orderdata}}
+                        <tr>
+
+                            <th scope="row"><b>#{{orderId}}</b></th>
+                            <td>
+                                {{#ifeq this.status "processing"}}
+                                <div class="tm-status-circle pending">
+                                </div>{{status}}
+                                {{/ifeq}}
+                                {{#ifeq this.status "Cancelled"}}
+                                <div class="tm-status-circle cancelled">
+                                </div>{{status}}
+                                {{/ifeq}}
+                                {{#ifeq this.status "Delivered"}}
+                                <div class="tm-status-circle moving">
+                                </div>{{status}}
+                                {{/ifeq}}
+                                {{#ifeq this.status "Returned"}}
+                                <div class="tm-status-circle cancelled">
+                                </div>{{status}}
+                                {{/ifeq}}
+                                {{#ifeq this.status "Out for Delivery"}}
+                                <div class="tm-status-circle pending">
+                                </div>{{status}}
+                                {{/ifeq}}
+                            </td>
+                            <td>
+                                {{#ifeq this.payment_method 1}}
+                                <p class="">COD</p>
+                                {{/ifeq}}
+
+                                {{#ifeq this.payment_method 2}}
+                                <p class="">RAZORPAY</p>
+                                {{/ifeq}}
+                            </td>
+                            {{!-- <td><b>{{name}}</b></td> --}}
+                            <td><b>{{subtotal}}</b></td>
+                            <td>{{date}}</td>
+                            
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+

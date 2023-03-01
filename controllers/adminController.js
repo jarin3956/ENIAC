@@ -109,51 +109,111 @@ const insertAdmin = async (req, res) => {
 const loadAdminHome = async (req, res) => {
     const months = {};
     const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
     ];
-  
+
+    const paymentMethods = {
+        1: "COD",
+        2: "Razorpay"
+    };
+
+
     try {
-      const orders = await Order.find({});
-      orders.forEach(function (order) {
-        var orderDate = new Date(order.createdAt);
-        var month = monthNames[orderDate.getMonth()];
-        if (!months[month]) {
-          months[month] = 0;
-        }
-        months[month]++;
-      });
-  
-      const result = await Order.aggregate([
-        {
-          $group: {
-            _id: {
-              month: { $month: "$createdAt" },
-              year: { $year: "$createdAt" }
+        const orders = await Order.find({});
+        orders.forEach(function (order) {
+            var orderDate = new Date(order.date);
+            var month = monthNames[orderDate.getMonth()];
+            if (!months[month]) {
+                months[month] = 0;
+            }
+            months[month]++;
+        });
+
+        const users = await User.countDocuments({});
+        const orderCount = await Order.countDocuments({});
+        const productCount = await Product.countDocuments({});
+        const couponCount = await Coupon.countDocuments({});
+
+        const result = await Order.aggregate([
+            {
+                $group: {
+                    _id: {
+                        month: { $month: "$month" },
+                        year: { $year: "$year" }
+                    },
+                    count: { $sum: 1 },
+                },
             },
-            count: { $sum: 1 },
-          },
-        },
-      ]);
-  
-      res.status(200).json({ months: months, result: result });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: "Internal server error" });
+        ]);
+
+        const paymentMethodCount = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$payment_method",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+        const data = paymentMethodCount.map(item => ({
+            label: paymentMethods[item._id],
+            value: item.count
+        }));
+
+        const paymentMethodData = data
+
+        res.render('home', { months: months, result: result, admin: 1, users: users, orderCount: orderCount, productCount: productCount, couponCount: couponCount, paymentMethodData: paymentMethodData });
+        console.log(paymentMethodData);
+    } catch (error) {
+        console.log(error.message);
     }
-  };
-  
-      
+};
+
+
+
+const adminDash = async (req, res) => {
+    try {
+
+        const paymentMethods = {
+            1: 'COD',
+            2: 'Razorpay'
+        };
+
+        const paymentMethodCount = await Order.aggregate([
+            {
+                $group: {
+                    _id: '$payment_method',
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        const data = paymentMethodCount.map(item => ({
+            label: paymentMethods[item._id],
+            value: item.count
+        }));
+
+        const paymentMethodData = JSON.parse(JSON.stringify(data));
+
+
+        res.render('dash', { admin: 1, paymentMethodData });
+        console.log(paymentMethodData);
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+
 
 const loadProductsManagement = async (req, res) => {
 
@@ -222,7 +282,7 @@ const editProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        console.log("check")
+
     }
 }
 
@@ -581,8 +641,8 @@ const cancelOrder = async (req, res) => {
                 }
             })
         } else if (orderData.status === "Out for Delivery") {
-            const deliveredDate = moment();
-            const date = deliveredDate.format('dddd, MMMM Do YYYY');
+            const deliveredDate = new Date()
+            const date = deliveredDate
             const deliverOrder = await Order.findOneAndUpdate({ _id: id }, {
                 $set: {
                     status: "Delivered",
@@ -659,6 +719,159 @@ const restoreCoupon = async (req, res) => {
 
 }
 
+
+const reports = async (req, res) => {
+    try {
+
+        const orderdata = await Order.aggregate([
+            { $match: { status: "Delivered" } },
+            {
+                $group: {
+                    _id: null,
+                    totalSales: { $sum: "$orderPrice" }
+
+                },
+
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ]);
+        const orderdetails = await Order.find({ status: "Delivered" })
+        const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
+
+        res.render('reports', { admin: 1, orderdata: orderdetails, totalSales: totalSales });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+
+const adminDashboard = async (req, res) => {
+    try {
+
+        const totalDeliveredsum = await Order.aggregate([{
+            $match: {
+                status: 'Delivered'
+            },
+        }, {
+            $group: {
+                _id: {
+                    $month: '$date'
+
+                },
+                sum: {
+                    $sum: '$orderPrice'
+                }
+            }
+        }])
+
+        const Piechart = await Order.aggregate([{
+            $match: {
+                $or: [{
+                    payment_method: '1' // COD payment
+                }, {
+                    payment_method: '2' // Online payment
+                }]
+            },
+        }, {
+            $group: {
+                _id: {
+                    payment_method: '$payment_method',
+                },
+                sum: {
+                    $sum: 1
+                }
+            }
+        }])
+        
+
+
+        
+
+        const Cancelorder = await Order.aggregate([{
+            $match: {
+                $or: [{
+                    status: 'Returned'
+                }, {
+                    status: 'Delivered'
+                }, {
+                    status: 'Cancelled',
+                }]
+            },
+        }, {
+            $group: {
+                _id: {
+                    status: '$status',
+                    date: {
+                        $month: '$date'
+                    },
+                },
+                sum: {
+                    $sum: 1
+                }
+            }
+        }])
+
+        let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        let Delivered = []
+        let delivered = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let Returned = []
+        let returned = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let Cancelled = []
+        let cancelled = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        Cancelorder.forEach((item) => {
+            if (item._id.status == 'Delivered')
+                Delivered.push(item)
+
+            if (item._id.status == 'Returned')
+                Returned.push(item)
+
+            if (item._id.status == 'Cancelled')
+                Cancelled.push(item)
+
+        })
+
+
+        for (let index = 0; index < 12; index++) {
+            months.forEach((item) => {
+                if (Delivered[index]) {
+                    if (item == Delivered[index]._id.date)
+                        delivered[item - 1] = Delivered[index].sum
+                }
+
+                if (Returned[index]) {
+                    if (item == Returned[index]._id.date)
+                        returned[item - 1] = Returned[index].sum
+                }
+
+                if (Cancelled[index]) {
+                    if (item == Cancelled[index]._id.date)
+                        cancelled[item - 1] = Cancelled[index].sum
+                }
+            })
+        }
+
+        res.json({
+            pie: Piechart,
+            revenue: totalDeliveredsum,
+            chart: {
+                delivered,
+                cancelled,
+                returned
+            }
+        })
+    } catch (error) {
+        console.log(error);
+       
+    }
+}
+
+
+
 module.exports = {
     loadLogin,
     verifyLogin,
@@ -696,5 +909,8 @@ module.exports = {
     addCoupon,
     insertCoupon,
     deleteCoupon,
-    restoreCoupon
+    restoreCoupon,
+    reports,
+    adminDash,
+    adminDashboard
 }

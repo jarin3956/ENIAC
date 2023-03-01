@@ -145,6 +145,8 @@ const insertUser = async (req, res) => {
 
                     res.render('registration', { loggedout: 1, message: "your registration is not completed" });
                 }
+            }else{
+                res.render('registration', { loggedout: 1, message: "password doesn't match" });
             }
         }
 
@@ -459,7 +461,11 @@ const productView = async (req, res) => {
                 }
             }
         ])
-        res.render('product-view', { products: productdata, logged: 1 });
+        if (req.session.user_id) {
+            res.render('product-view', { products: productdata, logged: 1 });
+        } else {
+            res.render('product-view', { products: productdata, loggedout: 1 });
+        }
     } catch (error) {
         console.log(error.message)
     }
@@ -763,8 +769,7 @@ const placeOrder = async (req, res) => {
         const id = Math.floor(100000 + Math.random() * 900000);
         const orderId = result + id;
         finalTotal = orderPrice
-        const today = moment();
-        const updatedDate = today.format('dddd, MMMM Do YYYY');
+        const today = new Date()
         const singleProduct = productid.map((item, i) => ({
             id: productid[i],
             name: productname[i],
@@ -789,7 +794,7 @@ const placeOrder = async (req, res) => {
         let data = {
             userId: ObjectId(req.session.user_id),
             orderId: orderId,
-            date: updatedDate,
+            date: today,
             addressId: addressId,
             product: singleProduct,
             payment_method: String(payment),
@@ -872,7 +877,7 @@ const myOrderDetails = async (req, res) => {
 const cancelReturnOrder = async (req, res) => {
     try {
         const id = req.query.id;
-        const orderData = await Order.findOne({ _id: id });
+        const orderData = await Order.findOne({ _id: id }).lean();
 
         if (orderData.payment_method === "1") {
             if (orderData.status === "Delivered") {
@@ -972,8 +977,8 @@ const paymentVerify = async (req, res) => {
         var expectedSignature = crypto.createHmac('sha256', 'DQN974JjQu8oSOz0IQEjF778')
             .update(body.toString())
             .digest('hex');
-        console.log("sig received ", req.body.response.razorpay_signature);
-        console.log("sig generated ", expectedSignature);
+        // console.log("sig received ", req.body.response.razorpay_signature);
+        // console.log("sig generated ", expectedSignature);
         var response = { "signatureIsValid": "false" }
         if (expectedSignature === req.body.response.razorpay_signature)
             response = { "signatureIsValid": "true" }
@@ -1010,6 +1015,28 @@ const orderSuccess = async (req,res) => {
     }
 }
 
+
+const errorPage = async(req,res) => {
+    try {
+        res.render('error-page');
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const errorBack = async(req,res) => {
+    try {
+        if (req.session.user_id) {
+            res.redirect('/home')
+        } else if (req.session.admin_id) {
+            res.redirect('/admin')
+        } 
+            
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 module.exports = {
     loginLoad,
@@ -1056,6 +1083,8 @@ module.exports = {
     myOrderDetails,
     searchedData,
     validateCoupon,
-    orderSuccess
+    orderSuccess,
+    errorPage,
+    errorBack
 
 }

@@ -24,7 +24,7 @@ const orderSchema = new Schema({
         required: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     status: {  
@@ -33,7 +33,7 @@ const orderSchema = new Schema({
         default: "Processing"
     },
     delivery_date:{
-        type: String
+        type: Date
     },
     payment_method: {  
         type: String,

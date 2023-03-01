@@ -1,11 +1,48 @@
-<h1>Admin home</h1>
-<div>
-    <canvas id="myChart"></canvas>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<section class="rounded-3" style="background-color: #eee;">
+    <div class="text-center container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                        <h2>Admin Dasboard</h2>
+                    </div>
+                    <div class="theArea">
+                <div class="p-3">
+                    <h4 class="eniac-text" ><i class="fa-solid fa-users"></i>   Total Users : {{users}}</h4>
+                    <h4 class="eniac-text" ><i class="fa-solid fa-boxes-packing"></i>  Total Orders : {{orderCount}}</h4>
+                    <h4 class="eniac-text" ><i class="fa-solid fa-laptop"></i>  Total Products : {{productCount}}</h4>
+                    <h4 class="eniac-text" ><i class="fa-solid fa-tags"></i>  Total Coupons : {{couponCount}}</h4>
+                </div>
+            </div>
+            <br>
+            <div class="theArea">
+                <div class="p-3">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="theArea">
+                <div class="p-3">
+                    <canvas id="paymentMethodChart"></canvas>
+                </div>
+            </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+{{!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+
 <script>
-    var ctx = document.getElementById("myChart").getContext("2d");
+     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
         type: "line",
         data: {
@@ -13,24 +50,10 @@
     datasets: [{
         label: "Orders",
         data: [{{#each months}}{{this}}, {{/each}}],
-        backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)"
-        ],
-            borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)"
-            ],
-                borderWidth: 1
-    }]
+        backgroundColor:'transparent',
+            borderColor: '#000000',
+                borderWidth: 2
+    },]
   },
     options: {
         animation: {
@@ -45,5 +68,46 @@
             }]
         }
     }
-});
+}); 
+
+</script>
+
+<script>
+
+    var ctx = document.getElementById('paymentMethodChart').getContext('2d');
+    var paymentMethodData = JSON.parse('{{paymentMethodData}}');
+    var paymentMethodChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: paymentMethodData.map(item => item.label),
+            datasets: [{
+                label: 'Payment Method',
+                data: paymentMethodData.map(item => item.value),
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            animation: {
+                duration: 2000,
+                easing: "easeInOutQuad"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+
 </script>

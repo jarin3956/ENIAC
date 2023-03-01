@@ -1,6 +1,8 @@
 const express = require("express");
 const hbs = require("express-handlebars");
 
+const { notFound, errorHandler } = require("./middleware/errorHandling");
+
 const app = express();
 const session = require("express-session");
 const path = require("path");
@@ -54,6 +56,10 @@ Handlebars.registerHelper('ifnoteq', function (a, b, options) {
     return options.inverse(this);
 });
 
+
+
+app.use("*", notFound);
+app.use(errorHandler);
 
 app.listen(3000, () => {
     console.log("server is running");
