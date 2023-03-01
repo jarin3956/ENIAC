@@ -87,4 +87,10 @@ admin_route.post('/addcoupon',adminController.insertCoupon);
 admin_route.get('/deletecoupon',verifyAdmin.isLogin,adminController.deleteCoupon);
 admin_route.get('/restorecoupon',verifyAdmin.isLogin,adminController.restoreCoupon);
 
+admin_route.get('/reports',verifyAdmin.isLogin,adminController.reports);
+
+admin_route.get('/dash',verifyAdmin.isLogin,adminController.adminDash);
+
+admin_route.get('/dash-bord/',verifyAdmin.isLogin,adminController.adminDashboard)
+
 module.exports = admin_route

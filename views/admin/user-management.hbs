@@ -1,88 +1,103 @@
-<div class="container-fluid">
-    <div class="sub-container thehome">
-        <div class="p-3">
-            <h1 class="thenewarrival">User Management</h1>
-            <br>
-            <div class="theArea">
-                <div class="card">
-                    <h5 class="card-header">Users</h5>
-                    <div class="table-responsive text-nowrap">
-                        <table class="table" id="">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Mobile</th>
-                                    <th scope="col">Action</th>
-                                    <th scope="col">Verification</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                                {{#each users}}
-                                <tr>
-                                    <td>{{this.name}}</td>
-                                    <td>{{this.email}}</td>
-                                    <td>{{this.mobile}}</td>
-                                    <td>
-                                        {{#if this.blocked}}
-                                        <a href="/admin/unblockuser?id={{this._id}}" class="btn btn-primary  w-75">Unblock</a>
-                                        {{else}}
-                                        <a href="/admin/blockuser?id={{this._id}}" class="btn btn-danger  w-75"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">Block</a>
-                                        {{/if}}
 
 
-                                    </td>
-                                    <td>
-                                        {{#if is_verified}}
-                                        <h4 class="text-success">verified</h4>
-                                        {{else }}
-                                        <h4 class="text-danger">not verified</h4>
-                                        {{/if}}
-                                    </td>
-                                    <td>
-                                        {{#if blocked}}
-                                        <h4 class="text-danger">Blocked</h4>
-                                        {{else}}
-                                        <h4 class="text-success">not blocked</h4>
-                                        {{/if}}
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure ?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <a href="/admin/blockuser?id={{this._id}}"><button type="button"
-                                                        class="btn btn-danger">Block User</button></a>
+
+
+
+<section class="rounded-3" style="background-color: #eee;">
+    <div class="text-center container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                        <h2>Users</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="basic-data-table">
+                            <table id="basic-data-table" class="table nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Action</th>
+                                        <th>Verification</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    {{#each users}}
+                                    <tr>
+                                        <td>{{this.name}}</td>
+                                        <td>{{this.email}}</td>
+                                        <td>{{this.mobile}}</td>
+                                        <td>
+                                            {{#if this.blocked}}
+                                            <a href="/admin/unblockuser?id={{this._id}}"
+                                                class="btn btn-primary  w-75">Unblock</a>
+                                            {{else}}
+                                            <a href="/admin/blockuser?id={{this._id}}" class="btn btn-danger  w-75"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal{{@index}}">Block</a>
+                                            {{/if}}
+
+
+                                        </td>
+                                        <td>
+                                            {{#if is_verified}}
+                                            <h4 class="text-success">verified</h4>
+                                            {{else }}
+                                            <h4 class="text-danger">not verified</h4>
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            {{#if blocked}}
+                                            <h4 class="text-danger">Blocked</h4>
+                                            {{else}}
+                                            <h4 class="text-success">not blocked</h4>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <a href="/admin/blockuser?id={{this._id}}"><button type="button"
+                                                            class="btn btn-danger">Block User</button></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                {{/each}}
-                            </tbody>
-                        </table>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+
+
 
 
 <script>
     $(document).ready(function () {
-        $('#list_users').DataTable();
+        $('#basic-data-table').DataTable();
     });
 </script>

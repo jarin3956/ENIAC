@@ -64,7 +64,7 @@ user_route.post('/login', userController.verifyLogin);
 user_route.get('/home', verify.isLogin, userController.loadHome);
 user_route.get('/logout', verify.isLogin, userController.userLogout);
 
-user_route.get('/productview', verify.isLogin, userController.productView);
+user_route.get('/productview', userController.productView);
 
 
 
@@ -116,5 +116,9 @@ user_route.post('/search',userController.searchedData);
 user_route.post('/validateCoupon',verify.isLogin,userController.validateCoupon);
 
 user_route.get('/ordersuccess',verify.isLogin,userController.orderSuccess);
+
+user_route.get('/404',userController.errorPage);
+
+user_route.get('/errorback',userController.errorBack);
 
 module.exports = user_route

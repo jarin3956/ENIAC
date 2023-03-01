@@ -256,11 +256,6 @@ body{
   color: rgb(105, 12, 162);
 }
 
-
-
-
-
-
 /*button*/
 
 .eniacbutton {
@@ -312,4 +307,29 @@ body{
   transition: background 0s;
  }
 
+
+
+ @media (max-width: 767px) {
+  #basic-data-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  #basic-data-table thead {
+    display: none;
+  }
+  #basic-data-table tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  #basic-data-table tbody td {
+    flex-basis: 100%;
+    padding: 5px;
+    text-align: left;
+  }
+}
 
