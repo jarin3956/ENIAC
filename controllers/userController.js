@@ -748,7 +748,12 @@ const validateCoupon = async (req, res) => {
             } else {
 
                 const CouponData = await Coupon.updateOne({ name: codeId }, { $push: { userId: req.session.user_id } })
+
+                
+
                 res.json(offerPrice)
+
+                
             }
         }else{
             res.json("NOT")
@@ -785,6 +790,7 @@ const placeOrder = async (req, res) => {
             if(gCouponAmount && orderPrice){
                 const amount = (orderPrice*gCouponAmount)/100
                 finalTotal = orderPrice - amount
+                const couponTrue = true
             }else{
                 finalTotal = orderPrice
                 
@@ -798,7 +804,8 @@ const placeOrder = async (req, res) => {
             addressId: addressId,
             product: singleProduct,
             payment_method: String(payment),
-            orderPrice: Number(finalTotal)
+            orderPrice: Number(finalTotal),
+            coupon_applied:couponTrue
         };
 
         const orderPlacement = await Order.insertMany(data);

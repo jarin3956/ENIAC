@@ -107,73 +107,20 @@ const insertAdmin = async (req, res) => {
 }
 
 const loadAdminHome = async (req, res) => {
-    const months = {};
-    const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
 
-    const paymentMethods = {
-        1: "COD",
-        2: "Razorpay"
-    };
 
 
     try {
-        const orders = await Order.find({});
-        orders.forEach(function (order) {
-            var orderDate = new Date(order.date);
-            var month = monthNames[orderDate.getMonth()];
-            if (!months[month]) {
-                months[month] = 0;
-            }
-            months[month]++;
-        });
+
 
         const users = await User.countDocuments({});
         const orderCount = await Order.countDocuments({});
         const productCount = await Product.countDocuments({});
         const couponCount = await Coupon.countDocuments({});
 
-        const result = await Order.aggregate([
-            {
-                $group: {
-                    _id: {
-                        month: { $month: "$month" },
-                        year: { $year: "$year" }
-                    },
-                    count: { $sum: 1 },
-                },
-            },
-        ]);
 
-        const paymentMethodCount = await Order.aggregate([
-            {
-                $group: {
-                    _id: "$payment_method",
-                    count: { $sum: 1 }
-                }
-            }
-        ]);
-        const data = paymentMethodCount.map(item => ({
-            label: paymentMethods[item._id],
-            value: item.count
-        }));
+        res.render('dash', { admin: 1, users: users, orderCount: orderCount, productCount: productCount, couponCount: couponCount });
 
-        const paymentMethodData = data
-
-        res.render('home', { months: months, result: result, admin: 1, users: users, orderCount: orderCount, productCount: productCount, couponCount: couponCount, paymentMethodData: paymentMethodData });
-        console.log(paymentMethodData);
     } catch (error) {
         console.log(error.message);
     }
@@ -181,37 +128,7 @@ const loadAdminHome = async (req, res) => {
 
 
 
-const adminDash = async (req, res) => {
-    try {
 
-        const paymentMethods = {
-            1: 'COD',
-            2: 'Razorpay'
-        };
-
-        const paymentMethodCount = await Order.aggregate([
-            {
-                $group: {
-                    _id: '$payment_method',
-                    count: { $sum: 1 }
-                }
-            }
-        ]);
-
-        const data = paymentMethodCount.map(item => ({
-            label: paymentMethods[item._id],
-            value: item.count
-        }));
-
-        const paymentMethodData = JSON.parse(JSON.stringify(data));
-
-
-        res.render('dash', { admin: 1, paymentMethodData });
-        console.log(paymentMethodData);
-    } catch (error) {
-        console.log(error.message);
-    }
-};
 
 
 
@@ -740,6 +657,7 @@ const reports = async (req, res) => {
         const orderdetails = await Order.find({ status: "Delivered" })
         const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
 
+
         res.render('reports', { admin: 1, orderdata: orderdetails, totalSales: totalSales });
 
     } catch (error) {
@@ -759,14 +677,22 @@ const adminDashboard = async (req, res) => {
         }, {
             $group: {
                 _id: {
-                    $month: '$date'
-
+                    $week: '$date'
                 },
                 sum: {
                     $sum: '$orderPrice'
                 }
             }
+        }, {
+            $sort: {
+                _id: -1
+            }
+        }, {
+            $limit: 7
         }])
+
+
+        console.log(totalDeliveredsum);
 
         const Piechart = await Order.aggregate([{
             $match: {
@@ -786,10 +712,10 @@ const adminDashboard = async (req, res) => {
                 }
             }
         }])
-        
 
 
         
+          
 
         const Cancelorder = await Order.aggregate([{
             $match: {
@@ -855,6 +781,8 @@ const adminDashboard = async (req, res) => {
             })
         }
 
+
+
         res.json({
             pie: Piechart,
             revenue: totalDeliveredsum,
@@ -862,11 +790,12 @@ const adminDashboard = async (req, res) => {
                 delivered,
                 cancelled,
                 returned
-            }
+            },
+           
         })
     } catch (error) {
         console.log(error);
-       
+
     }
 }
 
@@ -911,6 +840,5 @@ module.exports = {
     deleteCoupon,
     restoreCoupon,
     reports,
-    adminDash,
     adminDashboard
 }
