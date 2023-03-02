@@ -8,12 +8,20 @@ const connectDb = () => {
     mongoose.connect(process.env.data_url);
 }
 
-//const accountSid = "ACc7ac0f552d53cb10f3d01f516b02324c";
-//const authToken = "af639a5287cd6c56e0c746a20672f953";
+
+const emailId = process.env.email_id
+const emailPass = process.env.email_pass
+
+const razorId = process.env.razor_id
+const razorPass = process.env.razor_secret
+
+
 
 module.exports = {
     sessionSecrets,
     connectDb ,
-    //accountSid,
-    //authToken
+    emailId,
+    emailPass,
+    razorId,
+    razorPass
 }

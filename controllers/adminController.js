@@ -654,10 +654,15 @@ const reports = async (req, res) => {
                 $sort: { _id: 1 }
             }
         ]);
+
+
         const orderdetails = await Order.find({ status: "Delivered" })
         const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
 
-
+        orderdetails.forEach(order => {
+            order.deliveryDateFormatted = moment(order.delivery_date).format('DD-MM-YYYY');
+          });
+         
         res.render('reports', { admin: 1, orderdata: orderdetails, totalSales: totalSales });
 
     } catch (error) {

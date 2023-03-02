@@ -19,7 +19,7 @@ user_route.use(express.urlencoded({ extended: true }));
 
 
 const Razorpay = require('razorpay')
-var instance = new Razorpay({ key_id: "rzp_test_PV96s4rYG605ex", key_secret: "DQN974JjQu8oSOz0IQEjF778" })
+var instance = new Razorpay({ key_id: config.razorId , key_secret: config.razorPass })
 
 const verify = require('../middleware/userConfirm');
 const guestVerify = require('../middleware/guestConfirm');

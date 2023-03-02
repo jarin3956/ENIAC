@@ -54,7 +54,7 @@
                                             <div class="d-flex justify-content-between pt-2">
 
                                                 <p class="text-muted mb-0"><span class="fw-bold me-4">Ordered date :
-                                                    </span>{{date}}</p>
+                                                    </span>{{../oDate}}</p>
 
                                             </div>
                                             <div class="d-flex justify-content-between">
@@ -72,7 +72,7 @@
                                                 {{/ifeq}}
                                                 {{#ifeq this.status "Delivered"}}
                                                 <p class="text-muted mb-0"><span class="fw-bold me-4">Delivered Date
-                                                        :</span>{{delivery_date}}</p>
+                                                        :</span>{{../deliDate}}</p>
                                                 {{/ifeq}}
                                                 {{#ifeq this.status "Cancelled"}}
                                                 <p class="text-muted mb-0"><span class="fw-bold me-4">Order Status
@@ -96,10 +96,10 @@
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                {{#ifeq this.coupon_applied true}}
+                                                {{#ifeq this.coupon_app "Active"}}
                                                 <p class="text-muted mb-0"><span class="fw-bold me-4">Coupon Applied</p>
                                                 {{/ifeq}}
-                                                {{#ifeq this.coupon_applied false}}
+                                                {{#ifeq this.coupon_app "Inactive"}}
                                                 <p class="text-muted mb-0"><span class="fw-bold me-4">No Offers Applied</p>
                                                 {{/ifeq}}
                                             </div>
