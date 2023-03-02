@@ -8,7 +8,8 @@ const Category = require('../models/categoryModel');
 
 const moment = require('moment');
 
-//const config = require('../config/config');
+
+const config = require('../config/config');
 
 const nodemailer = require('nodemailer');
 const randomstring = require("randomstring");
@@ -35,8 +36,8 @@ const sendOtp = async (name, email, user_id) => {
             secure: false,
             requireTLS: true,
             auth: {
-                user: 'emailtestbangalore@gmail.com',
-                pass: 'plqeazmmggcrrmiu'
+                user: config.emailId,
+                pass: config.emailPass
             }
 
         });
@@ -70,13 +71,13 @@ const resetPasswordMail = async (name, email, token) => {
             secure: false,
             requireTLS: true,
             auth: {
-                user: 'emailtestbangalore@gmail.com',
-                pass: 'plqeazmmggcrrmiu'
+                user: config.emailId,
+                pass: config.emailPass
             }
         });
 
         const mailOptions = {
-            from: 'jarinmeethal@gmail.com',
+            from: config.emailId,
             to: email,
             subject: 'For Reset password',
             html: '<p>Hii ' + name + ' please click here to <a href="http://localhost:3000/forgetpassword?token=' + token + '"> Reset </a> your password.</p>'
@@ -145,7 +146,7 @@ const insertUser = async (req, res) => {
 
                     res.render('registration', { loggedout: 1, message: "your registration is not completed" });
                 }
-            }else{
+            } else {
                 res.render('registration', { loggedout: 1, message: "password doesn't match" });
             }
         }
@@ -216,11 +217,11 @@ const loadHome = async (req, res) => {
             }
         ]);
         if (req.session.user_id) {
-            res.render('home', { products: productdata, banner: bannerData,category: categoryData, logged: 1 });
+            res.render('home', { products: productdata, banner: bannerData, category: categoryData, logged: 1 });
 
         }
         else {
-            res.render('home', { products: productdata, banner: bannerData,category: categoryData, loggedout: 1 });
+            res.render('home', { products: productdata, banner: bannerData, category: categoryData, loggedout: 1 });
 
         }
 
@@ -749,13 +750,13 @@ const validateCoupon = async (req, res) => {
 
                 const CouponData = await Coupon.updateOne({ name: codeId }, { $push: { userId: req.session.user_id } })
 
-                
+
 
                 res.json(offerPrice)
 
-                
+
             }
-        }else{
+        } else {
             res.json("NOT")
         }
 
@@ -763,12 +764,13 @@ const validateCoupon = async (req, res) => {
         console.log(error.message);
     }
 }
-let finalTotal=0;
+let finalTotal = 0;
 let gCoupon;
 let gCouponAmount;
 const placeOrder = async (req, res) => {
     try {
 
+        let cApp = false
         const { productid, productname, payment, price, quantity, addressId, orderPrice } = req.body;
         const result = Math.random().toString(36).substring(2, 7);
         const id = Math.floor(100000 + Math.random() * 900000);
@@ -782,18 +784,20 @@ const placeOrder = async (req, res) => {
             quantity: quantity[i]
         }));
 
-        if(req.body.coupon){
+        if (req.body.coupon) {
             gCoupon = req.body.coupon
 
-            const couponApplied = await Coupon.findOne({name: req.body.coupon})
+            const couponApplied = await Coupon.findOne({ name: req.body.coupon })
             gCouponAmount = couponApplied.offer
-            if(gCouponAmount && orderPrice){
-                const amount = (orderPrice*gCouponAmount)/100
+            if (gCouponAmount && orderPrice) {
+                const amount = (orderPrice * gCouponAmount) / 100
                 finalTotal = orderPrice - amount
-                const couponTrue = true
-            }else{
+
+                cApp = true;
+
+            } else {
                 finalTotal = orderPrice
-                
+
             }
         }
 
@@ -805,10 +809,21 @@ const placeOrder = async (req, res) => {
             product: singleProduct,
             payment_method: String(payment),
             orderPrice: Number(finalTotal),
-            coupon_applied:couponTrue
+            coupon_app:cApp ? "Active" : "Inactive"
+
         };
 
         const orderPlacement = await Order.insertMany(data);
+
+        
+
+        // if(cApp){
+        //     const orderData = await Order.updateOne({
+        //     $set: {
+                
+        //     }
+        // })
+        // }
 
 
         const clearCart = await User.updateOne({ _id: req.session.user_id }, {
@@ -864,7 +879,7 @@ const aboutUs = async (req, res) => {
 
 const loadMyOrders = async (req, res) => {
     try {
-        const orderData = await Order.find({ userId: req.session.user_id }).sort({_id:-1})
+        const orderData = await Order.find({ userId: req.session.user_id }).sort({ _id: -1 })
         const length = orderData.length
         res.render('my-orders', { myorders: orderData, logged: 1, length })
     } catch (error) {
@@ -875,7 +890,14 @@ const loadMyOrders = async (req, res) => {
 const myOrderDetails = async (req, res) => {
     try {
         const orderData = await Order.find({ _id: req.query.id });
-        res.render('my-orderdetails', { myorders: orderData, logged: 1 })
+        const theDate = orderData[0].date
+        const dDate = orderData[0].delivery_date
+        let oDate = moment(theDate).format('DD-MM-YYYY');
+        let deliDate = moment(dDate).format('DD-MM-YYYY');
+
+        
+        
+        res.render('my-orderdetails', { myorders: orderData,oDate,deliDate, logged: 1 })
     } catch (error) {
         console.log(error.message)
     }
@@ -889,19 +911,19 @@ const cancelReturnOrder = async (req, res) => {
         if (orderData.payment_method === "1") {
             if (orderData.status === "Delivered") {
                 const returnOrder = await Order.findOneAndUpdate({ _id: id }, {
-    
+
                     $set: {
                         status: "Returned"
-    
+
                     }
-    
+
                 })
                 if (returnOrder) {
-                    const userData =await User.findOneAndUpdate({_id:ObjectId(orderData.userId)},
-                         {$inc:{wallet:orderData.orderPrice}}
-                  
-                    ) 
-                 } 
+                    const userData = await User.findOneAndUpdate({ _id: ObjectId(orderData.userId) },
+                        { $inc: { wallet: orderData.orderPrice } }
+
+                    )
+                }
             }
             else {
                 const CancelOrder = await Order.findOneAndUpdate(
@@ -912,24 +934,24 @@ const cancelReturnOrder = async (req, res) => {
                         },
                     }
                 );
-                
+
             }
         } else {
             if (orderData.status === "Delivered") {
                 const returnOrder = await Order.findOneAndUpdate({ _id: id }, {
-    
+
                     $set: {
                         status: "Returned"
-    
+
                     }
-    
+
                 })
                 if (returnOrder) {
-                   const userData =await User.findOneAndUpdate({_id:ObjectId(orderData.userId)},
-                        {$inc:{wallet:orderData.orderPrice}}
-                 
-                   ) 
-                } 
+                    const userData = await User.findOneAndUpdate({ _id: ObjectId(orderData.userId) },
+                        { $inc: { wallet: orderData.orderPrice } }
+
+                    )
+                }
             }
             else {
                 const CancelOrder = await Order.findOneAndUpdate(
@@ -941,16 +963,16 @@ const cancelReturnOrder = async (req, res) => {
                     }
                 )
                 if (CancelOrder) {
-                    const userData =await User.findOneAndUpdate({_id:ObjectId(orderData.userId)},
-                         {$inc:{wallet:orderData.orderPrice}}
-                  
-                    ) 
-                 } 
+                    const userData = await User.findOneAndUpdate({ _id: ObjectId(orderData.userId) },
+                        { $inc: { wallet: orderData.orderPrice } }
+
+                    )
+                }
             }
         }
 
 
-        
+
         res.redirect('/myorders');
     } catch (error) {
         console.log(error.message);
@@ -981,7 +1003,7 @@ const paymentVerify = async (req, res) => {
         let body = req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
 
         var crypto = require("crypto");
-        var expectedSignature = crypto.createHmac('sha256', 'DQN974JjQu8oSOz0IQEjF778')
+        var expectedSignature = crypto.createHmac('sha256', config.razorPass )
             .update(body.toString())
             .digest('hex');
         // console.log("sig received ", req.body.response.razorpay_signature);
@@ -1013,17 +1035,22 @@ const searchedData = async (req, res) => {
 
 }
 
-const orderSuccess = async (req,res) => {
+const orderSuccess = async (req, res) => {
     try {
-        const orderData = await Order.find({}).sort({_id:-1}).limit(1)
-        res.render('order-success',{myorders:orderData,logged:1})
+        const orderData = await Order.find({}).sort({ _id: -1 }).limit(1)
+
+        const theDate = orderData[0].date
+        
+        let oDate = moment(theDate).format('DD-MM-YYYY');
+        
+        res.render('order-success', { myorders: orderData,oDate, logged: 1 })
     } catch (error) {
         console.log(error.message);
     }
 }
 
 
-const errorPage = async(req,res) => {
+const errorPage = async (req, res) => {
     try {
         res.render('error-page');
     } catch (error) {
@@ -1031,15 +1058,15 @@ const errorPage = async(req,res) => {
     }
 }
 
-const errorBack = async(req,res) => {
+const errorBack = async (req, res) => {
     try {
         if (req.session.user_id) {
             res.redirect('/home')
         } else if (req.session.admin_id) {
             res.redirect('/admin')
-        } 
-            
-        
+        }
+
+
     } catch (error) {
         console.log(error.message);
     }

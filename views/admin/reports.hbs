@@ -1,6 +1,3 @@
-
-
-
 <section class="rounded-3" style="background-color: #eee;">
     <div class="text-center container py-5">
         <div class="row">
@@ -15,15 +12,15 @@
                     </div>
 
                     <div class="card-body" id="invoice">
-                        <div class="basic-data-table">
+                        <div>
                             <div class="form-group row">
                                 <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
                                 <div class="col-sm-4">
-                                    <input type="date" class="form-control" id="fromDate">
+                                    <input type="date" class="form-control" id="fromDate" format="DD-MM-YYYY">
                                 </div>
                                 <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
                                 <div class="col-sm-4">
-                                    <input type="date" class="form-control" id="toDate">
+                                    <input type="date" class="form-control" id="toDate" format="DD-MM-YYYY">
                                 </div>
                             </div>
 
@@ -41,7 +38,7 @@
                                     {{#each orderdata}}
                                     <tr>
                                         <td>{{this.orderId}}</td>
-                                        <td>{{this.delivery_date}}</td>
+                                        <td>{{this.deliveryDateFormatted}}</td>
                                         <td>₹{{this.orderPrice}}</td>
                                     </tr>
 
@@ -86,29 +83,23 @@
                 html2pdf().from(invoice).set(opt).save();
             })
     }
-</script>
 
-<script>
-$(document).ready(function() {
-    var table = $('#basic-data-table').DataTable();
+    $(document).ready(function () {
+        var table = $('#basic-data-table').DataTable();
 
-    // Add event listener for the date range inputs
-    $('#fromDate, #toDate').on('change', function() {
-        var fromDate = $('#fromDate').val();
-        var toDate = $('#toDate').val();
-        console.log('fromDate:', fromDate);
-        console.log('toDate:', toDate);
+        // Add event listener for the date range inputs
+        $('#fromDate, #toDate').on('change', function () {
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            console.log('fromDate:', fromDate);
+            console.log('toDate:', toDate);
 
-        var searchValue = fromDate + '|' + toDate;
-        console.log('searchValue:', searchValue);
+            var searchValue = fromDate + '|' + toDate;
+            console.log('searchValue:', searchValue);
 
-        var columnIdx = 1; // Update this to the correct index of the delivered date column
-        table.columns(columnIdx).search(searchValue, true, false).draw();
+            var columnIdx = 1; // Update this to the correct index of the delivered date column
+            table.columns(columnIdx).search(searchValue, true, false).draw();
+        });
     });
-});
 
 </script>
-
-
-
-
