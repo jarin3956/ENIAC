@@ -46,6 +46,9 @@ const orderSchema = new Schema({
     orderPrice:{
         type:Number,
         required:true
+    },coupon_applied:{
+        type:Boolean,
+        default:false
     }
     
    

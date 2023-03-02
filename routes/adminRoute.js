@@ -89,7 +89,7 @@ admin_route.get('/restorecoupon',verifyAdmin.isLogin,adminController.restoreCoup
 
 admin_route.get('/reports',verifyAdmin.isLogin,adminController.reports);
 
-admin_route.get('/dash',verifyAdmin.isLogin,adminController.adminDash);
+
 
 admin_route.get('/dash-bord/',verifyAdmin.isLogin,adminController.adminDashboard)
 

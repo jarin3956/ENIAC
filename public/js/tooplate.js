@@ -44,7 +44,7 @@ async function LineChartData() {
 
 LineChartData()
 
-function drawLineChart(delivered,cancelled,returned) {
+function drawLineChart(delivered, cancelled, returned) {
   if ($("#lineChart").length) {
     ctxLine = document.getElementById("lineChart").getContext("2d");
     optionsLine = {
@@ -52,7 +52,7 @@ function drawLineChart(delivered,cancelled,returned) {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: "Hits"
+            labelString: "Orders"
           }
         }]
       }
@@ -75,29 +75,29 @@ function drawLineChart(delivered,cancelled,returned) {
           "July"
         ],
         datasets: [{
-            label: "Delivered",
-            data: delivered,
-            fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            cubicInterpolationMode: "monotone",
-            pointRadius: 0
-          },
-          {
-            label: "Cancelled",
-            data: cancelled,
-            fill: false,
-            borderColor: "rgba(255,99,132,1)",
-            cubicInterpolationMode: "monotone",
-            pointRadius: 0
-          },
-          {
-            label: "Returned",
-            data: returned,
-            fill: false,
-            borderColor: "rgba(153, 102, 255, 1)",
-            cubicInterpolationMode: "monotone",
-            pointRadius: 0
-          }
+          label: "Delivered",
+          data: delivered,
+          fill: false,
+          borderColor: "rgb(75, 192, 192)",
+          cubicInterpolationMode: "monotone",
+          pointRadius: 0
+        },
+        {
+          label: "Cancelled",
+          data: cancelled,
+          fill: false,
+          borderColor: "rgba(255,99,132,1)",
+          cubicInterpolationMode: "monotone",
+          pointRadius: 0
+        },
+        {
+          label: "Returned",
+          data: returned,
+          fill: false,
+          borderColor: "rgba(153, 102, 255, 1)",
+          cubicInterpolationMode: "monotone",
+          pointRadius: 0
+        }
         ]
       },
       options: optionsLine
@@ -121,7 +121,7 @@ function drawBarChart(month, data) {
           },
           scaleLabel: {
             display: true,
-            labelString: "Hits"
+            labelString: "Weekly Order"
           }
         }]
       }
@@ -167,46 +167,8 @@ function drawBarChart(month, data) {
   }
 }
 
-// function drawPieChart(month, data) {
-//   if ($("#pieChart").length) {
-//     var chartHeight = 300;
 
-//     $("#pieChartContainer").css("height", chartHeight + "px");
 
-//     ctxPie = document.getElementById("pieChart").getContext("2d");
-
-//     optionsPie = {
-//       responsive: true,
-//       maintainAspectRatio: false,
-//       layout: {
-//         padding: {
-//           left: 10,
-//           right: 10,
-//           top: 10,
-//           bottom: 10
-//         }
-//       },
-//       legend: {
-//         position: "top"
-//       }
-//     };
-
-//     configPie = {
-//       type: "pie",
-//       data: {
-//         datasets: [{
-//           data: data,
-//           backgroundColor: [ "#4ED6B8","#F7604D", "#A8D582"],
-//           label: "Storage"
-//         }],
-//         labels: month
-//       },
-//       options: optionsPie
-//     };
-
-//     pieChart = new Chart(ctxPie, configPie);
-//   }
-// }
 
 
 function drawPieChart(month, data) {
@@ -238,7 +200,7 @@ function drawPieChart(month, data) {
       data: {
         datasets: [{
           data: data,
-          backgroundColor: [ "#4ED6B8","#F7604D"],
+          backgroundColor: ["#4ED6B8", "#F7604D"],
           label: "Payment Method"
         }],
         labels: ["COD", "Online Payment"]
@@ -249,6 +211,7 @@ function drawPieChart(month, data) {
     pieChart = new Chart(ctxPie, configPie);
   }
 }
+
 
 
 function updateLineChart() {

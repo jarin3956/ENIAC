@@ -62,7 +62,7 @@
             configBar,
             configPie,
             lineChart;
-        barChart, pieChart;
+        barChart, donutChart,pieChart;
 
         
         // DOM is ready
@@ -70,7 +70,7 @@
             drawLineChart(); // Line Chart
             drawBarChart(); // Bar Chart
             drawPieChart(); // Pie Chart
-
+            
             $(window).resize(function () {
                 updateLineChart();
                 updateBarChart();

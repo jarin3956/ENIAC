@@ -56,7 +56,6 @@
                                                 <p class="text-muted mb-0"><span class="fw-bold me-4">Ordered date :
                                                     </span>{{date}}</p>
 
-
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 {{#ifeq this.status "Processing"}}
@@ -94,6 +93,15 @@
 
                                             <div class="d-flex justify-content-between pt-2">
                                                 <p class="fw-bold mb-0">Payment Details</p>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                {{#ifeq this.coupon_applied true}}
+                                                <p class="text-muted mb-0"><span class="fw-bold me-4">Coupon Applied</p>
+                                                {{/ifeq}}
+                                                {{#ifeq this.coupon_applied false}}
+                                                <p class="text-muted mb-0"><span class="fw-bold me-4">No Offers Applied</p>
+                                                {{/ifeq}}
                                             </div>
 
                                             <div class="d-flex justify-content-between">
