@@ -11,6 +11,8 @@ const moment = require('moment');
 
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
+let orderdataFilter
+let filter = false;
 
 
 
@@ -71,7 +73,7 @@ const verifyLogin = async (req, res) => {
 const adminLogout = async (req, res) => {
 
     try {
-        req.session.admin_id = false;
+        req.session.admin_id = null;
         //req.session.destroy();
         res.redirect('/admin');
     } catch (error) {
@@ -593,17 +595,25 @@ const addCoupon = async (req, res) => {
 
 const insertCoupon = async (req, res) => {
     try {
-        const coupon = new Coupon({
-            name: req.body.name,
-            offer: req.body.offer,
-            status: "Active"
-        });
-        const couponData = await coupon.save();
-        if (couponData) {
-            res.redirect('/admin/coupons');
+
+        const checkSameCoupon = await Coupon.findOne({ name: req.body.name });
+        if (checkSameCoupon) {
+            res.render('add-coupon', { admin: 1, message: "Coupon already exist" });
         } else {
-            res.render('add-coupon', { admin: 1, message: "error" });
+            const coupon = new Coupon({
+                name: req.body.name,
+                offer: req.body.offer,
+                status: "Active"
+            });
+            const couponData = await coupon.save();
+            if (couponData) {
+                res.redirect('/admin/coupons');
+            } else {
+                res.render('add-coupon', { admin: 1, message: "error" });
+            }
         }
+
+
     } catch (error) {
         console.log(error.message);
     }
@@ -655,16 +665,50 @@ const reports = async (req, res) => {
             }
         ]);
 
-
-        const orderdetails = await Order.find({ status: "Delivered" })
+        if (!filter) {
+            orderdataFilter = await Order.find({ status: "Delivered" })
+        }
         const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
 
-        orderdetails.forEach(order => {
-            order.deliveryDateFormatted = moment(order.delivery_date).format('DD-MM-YYYY');
-          });
-         
-        res.render('reports', { admin: 1, orderdata: orderdetails, totalSales: totalSales });
+        // orderdataFilter.forEach(order => {
+        //     order.deliveryDateFormatted = moment(order.delivery_date).format('DD-MM-YYYY');
+        // });
 
+        res.render('reports', { admin: 1, orderdata: orderdataFilter, totalSales: totalSales });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+const filteringOrder = async (req, res) => {
+    try {
+        const reqDate = req.body.fromDate
+        const toDate = req.body.toDate
+
+
+        orderdataFilter = await Order.find(
+            // {$or:[{
+            {
+                $and: [
+                    {
+                        delivery_date: {
+                            $gt: reqDate,
+                        }
+                    },
+                    {
+                        delivery_date: {
+                            $lt: toDate,
+                        }
+                    }]
+            });
+
+        console.log(reqDate, toDate);
+        console.log(orderdataFilter);
+
+        filter = true;
+        res.redirect('/admin/reports');
     } catch (error) {
         console.log(error.message);
     }
@@ -697,7 +741,7 @@ const adminDashboard = async (req, res) => {
         }])
 
 
-        console.log(totalDeliveredsum);
+
 
         const Piechart = await Order.aggregate([{
             $match: {
@@ -719,8 +763,8 @@ const adminDashboard = async (req, res) => {
         }])
 
 
-        
-          
+
+
 
         const Cancelorder = await Order.aggregate([{
             $match: {
@@ -796,7 +840,7 @@ const adminDashboard = async (req, res) => {
                 cancelled,
                 returned
             },
-           
+
         })
     } catch (error) {
         console.log(error);
@@ -845,5 +889,6 @@ module.exports = {
     deleteCoupon,
     restoreCoupon,
     reports,
-    adminDashboard
+    adminDashboard,
+    filteringOrder
 }

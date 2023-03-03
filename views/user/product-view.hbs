@@ -1,28 +1,19 @@
-
-
-
-<div class="container mt-5" >
-    <div class="row d-flex justify-content-center" >
-        <div class="col-md-12" >
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
             <div class="card border-0 product-view-card col-12">
                 {{#each products}}
-                <div class="row" >
+                <div class="row">
                     <div class="col-md-6">
                         <div class="images">
-                            <div class="text-center col-12 zoom-image"
-                                data-image="/productImages/{{this.image.[0]}}">
-                                <img class="col-12" id="main-image" src="/productImages/{{this.image.[0]}} "
-                                    width="520" style="background-color:#FFB987;border-radius:30px;" />
+                            <div class="text-center col-12">
+                                <img class="col-12 zoomable magnify" id="main-image" src="/productImages/{{this.image.[0]}}" data-magnify-src="/productImages/{{this.image.[0]}}" width="400" style="background-color:#f1ede9;border-radius:20px;" />
                             </div>
                             <div class="thumbnail p-4">
-                                <img onclick="change_image(this)" src="/productImages/{{this.image.[0]}}"
-                                    width="100" style="background-color:#FFB987;border-radius:21px">
-                                <img onclick="change_image(this)" src="/productImages/{{this.image.[1]}}"
-                                    width="100" style="background-color:#FFB987;border-radius:30px;">
-                                <img onclick="change_image(this)" src="/productImages/{{this.image.[2]}}"
-                                    width="100" style="background-color:#FFB987;border-radius:30px;">
-                                <img onclick="change_image(this)" src="/productImages/{{this.image.[3]}}"
-                                    width="100" style="background-color:#FFB987;border-radius:30px;">
+                                <img onclick="change_image(this)" src="/productImages/{{this.image.[0]}}" width="70">
+                                <img onclick="change_image(this)" src="/productImages/{{this.image.[1]}}" width="70">
+                                <img onclick="change_image(this)" src="/productImages/{{this.image.[2]}}" width="70">
+                                <img onclick="change_image(this)" src="/productImages/{{this.image.[3]}}" width="70">
                             </div>
                         </div>
                     </div>
@@ -32,9 +23,11 @@
                                 <div class="d-flex align-items-center"><a href="/home"
                                         style="text-decoration: none; color: #6a6c6d;"><i
                                             class="fa fa-long-arrow-left"></i> <span class="ml-1">Back</span></a></div>
-                                <a class="text-danger" href="/addtowishlist?id={{this._id}}"><i class="fa-regular fa-heart" style="font-size: xx-large;" ></i></a>            
-                                <a href="/cart" class="text-danger" > <i class="fa fa-shopping-bag" aria-hidden="true" style="font-size: xx-large;"></i></a>
-                                
+                                <a class="text-danger" href="/addtowishlist?id={{this._id}}"><i
+                                        class="fa-regular fa-heart" style="font-size: xx-large;"></i></a>
+                                <a href="/cart" class="text-danger"> <i class="fa fa-shopping-bag" aria-hidden="true"
+                                        style="font-size: xx-large;"></i></a>
+
                             </div>
                             <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand">
                                     {{Product.0.name}}
@@ -61,7 +54,8 @@
                             </p>
                             <div class=" d-flex flex-row mt-5 gap-3">
                                 {{#if this.stock}}
-                                <a href="/addtocart?id={{this._id}}" class="btn the-userbutton  w-50 mb-5 p-3 ">Add to Cart</a>
+                                <a href="/addtocart?id={{this._id}}" class="btn the-userbutton  w-50 mb-5 p-3 ">Add to
+                                    Cart</a>
                                 {{else}}
                                 <a class="text-decoration-none text-danger " href=""><strong>Out of stock</strong></a>
                                 {{/if}}
@@ -75,69 +69,15 @@
     </div>
 </div>
 
+<script src="path/to/magnify.js"></script>
 <script>
     function change_image(image) {
         var container = document.getElementById("main-image");
         container.src = image.src;
+        container.setAttribute("data-magnify-src", image.src);
     }
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-
+    document.addEventListener("DOMContentLoaded", function(event) {
+        new Magnify(document.querySelector('.zoomable'));
     });
-    // <//script>
-
-    jQuery(document).ready(function ($) {
-
-        $('.zoom-image img').click(function (event) {
-            var ix = $(this).offset().left;
-            var iy = $(this).offset().top;
-            console.log(ix + '-' + iy);
-
-            var mx = event.pageX;
-            var my = event.pageY;
-            console.log(mx + '-' + my);
-        })
-
-        $('.zoom-image img').hover(function () {
-
-            var img = $(this).attr('src');
-
-            $(this).after("<div class='hover-image' style='background-image: url(" + img + "); background-size: 300px;'></div>");
-
-            $(this).mousemove(function (event) {
-
-                // Mouse Position
-                var mx = event.pageX;
-                var my = event.pageY;
-
-                // Image Position
-                var ix = $(this).offset().left;
-                var iy = $(this).offset().top;
-
-                // Mouse Position Relavtive to Image
-                var x = mx - (ix);
-                var y = my - (iy);
-
-                // Image Height and Width
-                var w = $(this).width();
-                var h = $(this).height();
-
-                // Mouse Position Relative to Image, in %
-                var xp = (-x / w) * -100;
-                var yp = (-y / h) * -100;
-
-                $(this).parent().find('.hover-image').attr('style',
-
-                    "background-image: url(" + img + "); background-size: 1000px; background-repeat: no-repeat; background-position: " + xp + "% " + yp + "%; top: " + y + "px; left: " + x + "px;");
-
-            });
-
-        }, function () {
-
-            $(this).parent().find('.hover-image').remove();
-
-        });
-
-    });
-
 </script>
