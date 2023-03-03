@@ -88,6 +88,7 @@ admin_route.get('/deletecoupon',verifyAdmin.isLogin,adminController.deleteCoupon
 admin_route.get('/restorecoupon',verifyAdmin.isLogin,adminController.restoreCoupon);
 
 admin_route.get('/reports',verifyAdmin.isLogin,adminController.reports);
+admin_route.post('/filter',adminController.filteringOrder)
 
 
 
