@@ -3,13 +3,18 @@
 
 
 
-<section class="rounded-3" style="background-color: #eee;">
+
+
+
+
+
+<section class="rounded-3" style="background-color: #d1cbcb;">
     <div class="text-center container py-5">
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    <div class="card-header card-header-border-bottom d-flex justify-content-between">
-                        <h2>Users</h2>
+                    <div class="admin-dashhd text-center">
+                        <h2 class="text-center admin-dasheadn  p-3"  >Users</h2>
                     </div>
 
                     <div class="card-body">
@@ -36,11 +41,11 @@
                                         <td>
                                             {{#if this.blocked}}
                                             <a href="/admin/unblockuser?id={{this._id}}"
-                                                class="btn btn-primary  w-75">Unblock</a>
+                                                class="btn btn-primary "><i class="fa-solid fa-repeat"></i></a>
                                             {{else}}
-                                            <a href="/admin/blockuser?id={{this._id}}" class="btn btn-danger  w-75"
+                                            <a href="/admin/blockuser?id={{this._id}}" class="btn btn-danger "
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal{{@index}}">Block</a>
+                                                data-bs-target="#exampleModal{{@index}}"><i class="fa-solid fa-trash"></i></a>
                                             {{/if}}
 
 

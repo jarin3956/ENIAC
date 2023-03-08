@@ -1,13 +1,16 @@
 
 
-<section class="rounded-3" style="background-color: #eee;">
+<section class="rounded-3" style="background-color: #d1cbcb;">
     <div class="text-center container py-5">
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    <div class="card-header card-header-border-bottom d-flex justify-content-between">
-                        <h2>Coupons</h2>
+                    <div class="admin-dashhd text-center">
+                        <h2 class="text-center admin-dasheadn  p-3">Coupons</h2>
 
+
+                    </div>
+                    <div class=" d-flex justify-content-center p-2">
                         <a href="/admin/addcoupon" class="btn btn-success"><i class="fa-solid fa-plus"></i>Add</a>
 
                     </div>
@@ -34,13 +37,13 @@
                                         <td>
                                             {{#ifeq this.status "Active"}}
                                             <a href="/admin/deletecoupon?id={{this._id}}" class="btn btn-danger  "
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal{{@index}}"><i class="fa-solid fa-trash"></i></a>
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}"><i
+                                                    class="fa-solid fa-trash"></i></a>
                                             {{/ifeq}}
 
                                             {{#ifeq this.status "Inactive"}}
-                                            <a href="/admin/restorecoupon?id={{this._id}}"
-                                                class="btn btn-success "><i class="fa-solid fa-repeat"></i></a>
+                                            <a href="/admin/restorecoupon?id={{this._id}}" class="btn btn-success "><i
+                                                    class="fa-solid fa-repeat"></i></a>
                                             {{/ifeq}}
                                         </td>
 

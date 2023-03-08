@@ -1,7 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <p class="fs-1"><strong>eniac</strong></p>
+            <button data-text="Awesome" class="button">
+                <span class="actual-text">&nbsp;eniac&nbsp;</span>
+                <span class="hover-text" aria-hidden="true">&nbsp;eniac&nbsp;</span>
+            </button>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,35 +13,62 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="home">Dashboard</a>
+                    <a class="nav-link active" href="home">
+                        <h5>Dashboard</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="products">Products</a>
+                    <a class="nav-link active" href="products">
+                        <h5>Products</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="users">Users</a>
+                    <a class="nav-link active" href="users">
+                        <h5>Users</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="category">Category</a>
+                    <a class="nav-link active" href="category">
+                        <h5>Category</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="banner">Banner</a>
+                    <a class="nav-link active" href="banner">
+                        <h5>Banner</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="orders">Orders</a>
+                    <a class="nav-link active" href="orders">
+                        <h5>Orders</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="coupons">Coupons</a>
+                    <a class="nav-link active" href="coupons">
+                        <h5>Coupons</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="reports">Reports</a>
+                    <a class="nav-link active" href="reports">
+                        <h5>Reports</h5>
+                    </a>
                 </li>
-                
-                
-                <a class="btn the-userbutton my-2 my-sm-0 st" data-bs-toggle="modal" href="#exampleModalToggle"
-                    role="button"><strong>Logout</strong></a>
                 
             </ul>
+            <form class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    
+
+                    <a class="logbutton text-decoration-none text-white " data-bs-toggle="modal" href="#exampleModalToggle"
+                        role="button">Logout
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+
+                        </div>
+                    </a>
+                    
+
+                </ul>
+            </form>
             
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" data-bs-backdrop="static"
                 data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel" tabindex="-1">

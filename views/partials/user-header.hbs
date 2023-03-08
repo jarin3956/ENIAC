@@ -1,7 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <p class="fs-1"><strong>eniac</strong></p>
+
+            <button data-text="Awesome" class="button">
+                <span class="actual-text">&nbsp;eniac&nbsp;</span>
+                <span class="hover-text" aria-hidden="true">&nbsp;eniac&nbsp;</span>
+            </button>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,41 +14,78 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="home">Home</a>
-                </li>   
-                <li class="nav-item">
-                    <a class="nav-link active" href="aboutus">About us</a>
+                    <a class="nav-link active" aria-current="page" href="home">
+                        <h5>Home</h5>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="contactus">Contact Us</a>
-                </li>   
+                    <a class="nav-link active" href="aboutus">
+                        <h5>About us</h5>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="contactus">
+                        <h5>Contact Us</h5>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {{#if logged}}
+                <li class="nav-item">
+                    <a class="nav-link " href="profile">
+                        <h6><i class="fa-solid fa-user"></i></h6>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="wishlist">
+                        <h6><i class="fa-sharp fa-solid fa-heart"></i></h6>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="cart">
+                        <h6><i class="fa-solid fa-cart-shopping"></i></h6>
+                    </a>
+                </li>
+
+                {{/if}}
+
             </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <form class="d-flex" action="/search" method="post">
-                    <input class="form-control me-2" name="text" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn the-userbutton" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div class="group">
+                        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                            <g>
+                                <path
+                                    d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                                </path>
+                            </g>
+                        </svg>
+                        <input placeholder="Search" type="search" class="input" name="text">
+                    </div>
                 </form>
+
             </ul>
             <form class="d-flex">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {{#if logged}}
-                <li class="nav-item">
-                    <a class="nav-link " href="profile"><i class="fa-solid fa-user"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="wishlist"><i class="fa-sharp fa-solid fa-heart"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="cart" ><i class="fa-solid fa-cart-shopping"></i></a>
-                </li>
-                <a class="btn the-userbutton " data-bs-toggle="modal" href="#exampleModalToggle"
-                    role="button">Logout</a>
-                {{else}}
-                <a class="btn the-userbutton " href="login" role="button">Login</a>
-                {{/if}}
-                
-            </ul>
-                
+                    {{#if logged}}
+
+                    <a class="logbutton text-decoration-none text-white " data-bs-toggle="modal" href="#exampleModalToggle"
+                        role="button">Logout
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+
+                        </div>
+                    </a>
+                    {{else}}
+                    <a class="logbutton text-decoration-none text-white " href="login" role="button">Login
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+
+                        </div>
+                    </a>
+                    {{/if}}
+
+                </ul>
             </form>
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" data-bs-backdrop="static"
                 data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
