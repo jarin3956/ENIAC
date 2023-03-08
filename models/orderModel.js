@@ -46,7 +46,16 @@ const orderSchema = new Schema({
     orderPrice:{
         type:Number,
         required:true
-    },coupon_app:{
+    },
+    productPrice:{
+        type:Number,
+        required:true
+    },
+    couponDiscount:{
+        type:Number,
+        required:true
+    },
+    coupon_app:{
         type:String,
         default:"Inactive"
     }
