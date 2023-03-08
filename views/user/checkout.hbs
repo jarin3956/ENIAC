@@ -168,11 +168,12 @@
     let payment;
     let orderPrice;
     orderPrice = Number(document.getElementById('subtotal').value)
-    {{!-- let grandTotal = Number(document.getElementById('gtotal').innerHTML)
-    grandTotal = grandTotal * 100; --}}
+    let grandTotal = Number(document.getElementById('gtotal').innerHTML)
+    console.log(grandTotal)
+    
     finalPriceAmount = orderPrice;
 
-    {{!-- const amount = document.getElementById("gtotal").innerHTML * 100 --}}
+    
 
 
     async function checkCoupon() {
@@ -242,7 +243,7 @@
                         "Content-Type": "application/json",
                     },
                     data: JSON.stringify({
-                        {{!-- amount: document.getElementById('gtotal').innerHTML, //CHANGE THE AMOUNT AS NEEDED --}}
+                        
                         amount : finalPriceAmount 
                     }),
                 };
@@ -258,7 +259,7 @@
                 var options = {
                     key: "rzp_test_PV96s4rYG605ex", // Enter the Key ID generated from the Dashboard
                     amount : finalPriceAmount *100,
-                    {{!-- amount: document.getElementById('gtotal').innerHTML * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise --}}
+                    
                     currency: "INR",
                     name: "eniac",
                     description: "Test Transaction",
@@ -315,7 +316,7 @@
         const quantity = Object.values(document.getElementsByName('quantity')).map((item) => item.value)
         const addressId = document.getElementById('addressform').value
         const orderPrice = Object.values(document.getElementsByName('totalamount')).map((item) => item.value)
-        {{!-- const orderPrice = finalPriceAmount.map((item) => item.value) --}}
+        
 
         const coupon = document.getElementById('couponCode').value
 

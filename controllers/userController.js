@@ -801,6 +801,9 @@ const placeOrder = async (req, res) => {
             }
         }
 
+        const couponDiscount = orderPrice - finalTotal
+        console.log(couponDiscount);
+
         let data = {
             userId: ObjectId(req.session.user_id),
             orderId: orderId,
@@ -809,21 +812,13 @@ const placeOrder = async (req, res) => {
             product: singleProduct,
             payment_method: String(payment),
             orderPrice: Number(finalTotal),
+            productPrice:Number(orderPrice),
+            couponDiscount:couponDiscount,
             coupon_app:cApp ? "Active" : "Inactive"
 
         };
 
         const orderPlacement = await Order.insertMany(data);
-
-        
-
-        // if(cApp){
-        //     const orderData = await Order.updateOne({
-        //     $set: {
-                
-        //     }
-        // })
-        // }
 
 
         const clearCart = await User.updateOne({ _id: req.session.user_id }, {
@@ -1020,7 +1015,8 @@ const paymentVerify = async (req, res) => {
 
 const searchedData = async (req, res) => {
     try {
-        const data = await Product.find({ name: { $regex: req.body.text } });
+        const data = await Product.find({ name: { $regex: new RegExp(req.body.text, 'i') } });
+
         console.log(data);
         const length = data.length
         if (req.session.user_id) {
