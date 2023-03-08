@@ -14,6 +14,7 @@ async function LineChartData() {
   if (res) {
     let pieMonth = []
     let pieData = []
+    
     let totalRevenueofMonth = []
     let totalRevenueofData = []
     res.pie.forEach(({
@@ -23,6 +24,9 @@ async function LineChartData() {
       pieMonth.push(_id.status)
       pieData.push(sum)
     })
+
+    
+    
 
     res.revenue.forEach(({
       _id,
@@ -37,75 +41,135 @@ async function LineChartData() {
 
     drawBarChart(totalRevenueofMonth, totalRevenueofData)
     drawPieChart(pieMonth, pieData)
-    drawLineChart(res.chart.delivered, res.chart.cancelled, res.chart.returned)
+    drawDonutChart(res.chart.delivered, res.chart.cancelled, res.chart.returned)
+    
+    drawDonutChart2(res.proC.categoryNames, res.proC.productCounts);
   }
 }
 
 
 LineChartData()
 
-function drawLineChart(delivered, cancelled, returned) {
-  if ($("#lineChart").length) {
-    ctxLine = document.getElementById("lineChart").getContext("2d");
-    optionsLine = {
-      scales: {
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: "Orders"
-          }
-        }]
+
+function drawDonutChart2(categoryNames, productCounts) {
+  if ($("#donutChart2").length) {
+    var chartHeight = 300;
+
+    $("#donutChartContainer2").css("height", chartHeight + "px");
+
+    var ctxDonut2 = document.getElementById("donutChart2").getContext("2d");
+
+    var optionsDonut2 = {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10
+        }
+      },
+      legend: {
+        position: "right"
       }
     };
 
-    // Set aspect ratio based on window width
-    optionsLine.maintainAspectRatio =
-      $(window).width() < width_threshold ? false : true;
-
-    configLine = {
-      type: "line",
+    var configDonut2 = {
+      type: "doughnut",
       data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July"
-        ],
-        datasets: [{
-          label: "Delivered",
-          data: delivered,
-          fill: false,
-          borderColor: "rgb(75, 192, 192)",
-          cubicInterpolationMode: "monotone",
-          pointRadius: 0
-        },
-        {
-          label: "Cancelled",
-          data: cancelled,
-          fill: false,
-          borderColor: "rgba(255,99,132,1)",
-          cubicInterpolationMode: "monotone",
-          pointRadius: 0
-        },
-        {
-          label: "Returned",
-          data: returned,
-          fill: false,
-          borderColor: "rgba(153, 102, 255, 1)",
-          cubicInterpolationMode: "monotone",
-          pointRadius: 0
-        }
+        labels: categoryNames,
+        datasets: [
+          {
+            data: productCounts,
+            backgroundColor: [
+              "#4ED6B8",
+              "#FFCE56",
+              "#36A2EB",
+              "#FF6384",
+              "#1F77B4",
+              "#FF7F0E",
+              "#2CA02C",
+              "#9467BD",
+              "#8C564B",
+              "#E377C2"
+            ]
+          }
         ]
       },
-      options: optionsLine
+      options: optionsDonut2
     };
 
-    lineChart = new Chart(ctxLine, configLine);
+    var donutChart2 = new Chart(ctxDonut2, configDonut2);
+
+    // Show product count on hover
+    ctxDonut2.canvas.addEventListener("mousemove", function(event) {
+      var activePoints = donutChart2.getElementsAtEvent(event);
+      var firstPoint = activePoints[0];
+      if (firstPoint) {
+        var label = donutChart2.data.labels[firstPoint._index];
+        var value = donutChart2.data.datasets[0].data[firstPoint._index];
+        var total = donutChart2.data.datasets[0].data.reduce(
+          (a, b) => a + b,
+          0
+        );
+        var percent = ((value / total) * 100).toFixed(2) + "%";
+        var tooltipText = `${value} Products (${percent})`;
+        $("#donutChart2").attr("title", tooltipText);
+      } else {
+        $("#donutChart2").removeAttr("title");
+      }
+    });
   }
 }
+
+
+
+
+function drawDonutChart(delivered, cancelled, returned) {
+  if ($("#donutChart").length) {
+    ctxDonut = document.getElementById("donutChart").getContext("2d");
+    optionsDonut = {
+      responsive: true,
+      maintainAspectRatio: false,
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var label = data.labels[tooltipItem.index] || '';
+
+            if (label) {
+              label += ': ';
+            }
+            label += data.datasets[0].data[tooltipItem.index];
+            label += ' orders';
+            return label;
+          }
+        }
+      }
+    };
+    configDonut = {
+      type: "doughnut",
+      data: {
+        labels: ["Delivered", "Cancelled", "Returned"],
+        datasets: [{
+          data: [delivered, cancelled, returned],
+          backgroundColor: [
+            "#8BC34A", // green for delivered
+            "#FF6384", // red for cancelled
+            "#36A2EB" // blue for returned
+          ]
+        }]
+      },
+      options: optionsDonut
+    };
+    donutChart = new Chart(ctxDonut, configDonut);
+  }
+}
+
+
+
+
+
 
 function drawBarChart(month, data) {
   if ($("#barChart").length) {
@@ -114,6 +178,16 @@ function drawBarChart(month, data) {
     optionsBar = {
       responsive: true,
       scales: {
+        xAxes: [{
+          
+          ticks: {
+            beginAtZero: true
+          },
+          scaleLabel: {
+            display: true,
+            
+          }
+        }],
         yAxes: [{
           barPercentage: 0.2,
           ticks: {
@@ -121,14 +195,14 @@ function drawBarChart(month, data) {
           },
           scaleLabel: {
             display: true,
-            labelString: "Weekly Order"
+            
           }
         }]
+        
       }
     };
 
-    optionsBar.maintainAspectRatio =
-      $(window).width() < width_threshold ? false : true;
+    
 
     /**
      * COLOR CODES
@@ -141,10 +215,14 @@ function drawBarChart(month, data) {
      * Blue: #3889FC
      */
 
+    var labels = month.map(function(m) {
+      return m + "th week";
+    })
+
     configBar = {
       type: "horizontalBar",
       data: {
-        labels: month,
+        labels: labels,
         datasets: [{
           label: "Revenue",
           data: data,
@@ -214,12 +292,17 @@ function drawPieChart(month, data) {
 
 
 
-function updateLineChart() {
-  if (lineChart) {
-    lineChart.options = optionsLine;
-    lineChart.update();
+
+
+function updateDonutChart() {
+  if (donutChart) {
+    donutChart.options = optionsDonut;
+    donutChart.update();
   }
 }
+
+
+
 
 function updateBarChart() {
   if (barChart) {

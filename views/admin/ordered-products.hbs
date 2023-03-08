@@ -1,68 +1,68 @@
 
 
 
-<section class="rounded-3" style="background-color: #eee;">
+<section class="rounded-3" style="background-color:  #d1cbcb;">
     <div class="text-center container py-5">
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    <div class="card-header card-header-border-bottom d-flex justify-content-between">
-                        <h2>Ordered Products</h2>
+                    <div class="admin-dashhd text-center">
+                        <h2 class="text-center admin-dasheadn  p-3">Ordered Products</h2>
                     </div>
 
-                    <div class="card-body">
-                        <div class="basic-data-table">
-                            <table id="basic-data-table" class="table nowrap" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th >Product name</th>
-                                    <th >Quantity</th>
-                                    <th >Price</th>
-                                    </tr>
-                                </thead>
+                    <center>
+                        <div class="card-body">
 
-
-                                <tbody >
+                            <div class="adcard">
                                 {{#each order}}
-
                                 {{#each product}}
-                                <tr>
-                                    <td>{{name}}</td>
-                                    <td>{{quantity}}</td>
-                                    <td>₹{{price}}</td>
-                                </tr>
+                                <h2 class="adh">Product Details</h2>
+                                <p class="adp"><strong>Product Name:</strong>{{name}}</p>
+                                <p class="adp"><strong>Quantity:</strong>{{quantity}}</p>
+                                <p class="adp"><strong>Price:</strong>₹{{price}}</p>
+                                {{/each}}
                                 {{/each}}
 
+                                {{#each order}}
+                                <div class="aduser">
+                                    <p class="adp"><strong>User</strong>
+                                    <h2>{{userDetails.0.name}}</h2>
+                                    </p>
+                                </div>
+                                <div class="adaddress">
+                                    <h2 class="adh">Shipping Address</h2>
+                                    <p class="adp">{{addressId}}</p>
+
+                                </div>
+
+                                <div class="addelivery">
+                                    <h2 class="adh">Ordered Date</h2>
+                                    <p class="adp">{{date}}</p>
+                                </div>
+                                <div class="adadaddress">
+
+                                    {{#ifeq status "Delivered"}}
+                                    <h5>Delivered Date</h5>
+                                    <h6>{{delivery_date}}</h6>
+                                    {{/ifeq}}
+                                    {{#ifnoteq status "Delivered"}}
+                                    <h5>Delivered Date</h5>
+                                    <h6>Not Delivered</h6>
+                                    {{/ifnoteq}}
+
+                                </div>
                                 {{/each}}
-                            </tbody>
-                            </table>
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        {{#each order}}
-                    <h5 class="card-header" >User Name</h5>
-                    <h4>{{userDetails.0.name}}</h4>
-                    <h5 class="card-header">Ordered Address</h5> 
-                    <h6>{{addressId}}</h6>
-                    <h5 class="card-header">Ordered Date</h5>
-                    <h6>{{date}}</h6>
-                    {{#ifeq status "Delivered"}}
-                    <h5 class="card-header">Delivered Date</h5>
-                    <h6>{{delivery_date}}</h6>
-                    {{/ifeq}}
-                    {{#ifnoteq status "Delivered"}}
-                    <h5 class="card-header">Delivered Date</h5>
-                    <h6>Not Delivered</h6>
-                    {{/ifnoteq}}
-                    {{/each}}
-                    </div>
+                    </center>
                 </div>
             </div>
         </div>
         <div class="pt-5">
-                <h6 class="mb-0"><a href="orders" class="text-body text-decoration-none"><i
-                            class="fas fa-long-arrow-alt-left me-2"></i>Back</a></h6>
-            </div>
+            <h6 class="mb-0"><a href="orders" class="text-body text-decoration-none"><i
+                        class="fas fa-long-arrow-alt-left me-2"></i>Back</a></h6>
+        </div>
     </div>
 </section>
 

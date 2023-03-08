@@ -790,47 +790,46 @@ const adminDashboard = async (req, res) => {
             }
         }])
 
-        let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        let Delivered = []
-        let delivered = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        let Returned = []
-        let returned = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        let Cancelled = []
-        let cancelled = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let delivered = 0;
+        let cancelled = 0;
+        let returned = 0;
 
         Cancelorder.forEach((item) => {
             if (item._id.status == 'Delivered')
-                Delivered.push(item)
+                delivered += item.sum;
 
             if (item._id.status == 'Returned')
-                Returned.push(item)
+                returned += item.sum;
 
             if (item._id.status == 'Cancelled')
-                Cancelled.push(item)
-
+                cancelled += item.sum;
         })
 
 
-        for (let index = 0; index < 12; index++) {
-            months.forEach((item) => {
-                if (Delivered[index]) {
-                    if (item == Delivered[index]._id.date)
-                        delivered[item - 1] = Delivered[index].sum
-                }
 
-                if (Returned[index]) {
-                    if (item == Returned[index]._id.date)
-                        returned[item - 1] = Returned[index].sum
-                }
-
-                if (Cancelled[index]) {
-                    if (item == Cancelled[index]._id.date)
-                        cancelled[item - 1] = Cancelled[index].sum
-                }
-            })
-        }
-
-
+        const userData = await Product.aggregate([
+            {
+              $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category"
+              }
+            },
+            {
+              $unwind: "$category"
+            },
+            {
+              $group: {
+                _id: "$category.name",
+                count: { $sum: 1 }
+              }
+            }
+          ]);
+        
+          const categoryNames = userData.map(data => data._id);
+          const productCounts = userData.map(data => data.count);
+        
 
         res.json({
             pie: Piechart,
@@ -840,6 +839,10 @@ const adminDashboard = async (req, res) => {
                 cancelled,
                 returned
             },
+            proC:{
+                categoryNames,
+                productCounts
+            }
 
         })
     } catch (error) {

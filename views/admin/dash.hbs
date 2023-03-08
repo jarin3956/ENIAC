@@ -1,40 +1,69 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Admin Dasboard</h2>
-        </div>
-        <div class="p-3">
-            <h4 class="eniac-text"><i class="fa-solid fa-users"></i> Total Users : {{users}}</h4>
-            <h4 class="eniac-text"><i class="fa-solid fa-boxes-packing"></i> Total Orders : {{orderCount}}</h4>
-            <h4 class="eniac-text"><i class="fa-solid fa-laptop"></i> Total Products : {{productCount}}</h4>
-            <h4 class="eniac-text"><i class="fa-solid fa-tags"></i> Total Coupons : {{couponCount}}</h4>
-        </div>
-    </div>
-    <!-- row -->
-    <div class="row tm-content-row">
-        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
-            <div class="tm-bg-primary-dark tm-block">
-                <h2 class="tm-block-title">Total Orders</h2>
-                <canvas id="lineChart"></canvas>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
-            <div class="tm-bg-primary-dark tm-block">
-                <h2 class="tm-block-title">Weeky Sales</h2>
-                <canvas id="barChart"></canvas>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
-            <div class="tm-bg-primary-dark tm-block tm-block-taller">
-                <h2 class="tm-block-title">Payment Method</h2>
-                <div id="pieChartContainer">
-                    <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+
+
+
+
+
+<section class="rounded-3" style="background-color: #d1cbcb;">
+    <div class="text-center container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="admin-dashhd text-center ">
+                        <h2 class="text-center admin-dasheadn  p-3">Admin Dasboard</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="p-3 text-center ">
+                            <h4 class="tmadminlgo"><i class="fa-solid fa-users"></i> Total Users : {{users}}</h4>
+                            <h4 class="tmadminlgo"><i class="fa-solid fa-boxes-packing"></i> Total Orders :
+                                {{orderCount}}</h4>
+                            <h4 class="tmadminlgo"><i class="fa-solid fa-laptop"></i> Total Products : {{productCount}}
+                            </h4>
+                            <h4 class="tmadminlgo"><i class="fa-solid fa-tags"></i> Total Coupons : {{couponCount}}</h4>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-12 col-md-12 adm-dash-ch ">
+                                <div>
+                                    <h3 class="tmadmin">Total Orders</h3>
+                                    <br>
+                                    <div>
+                                        <canvas id="donutChart" class="chartjs-render-monitor"  ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-12 col-md-12 adm-dash-chw">
+                                <div class="tm-bg-primary-dark tm-block">
+                                    <h3 class="tmadmin">Weeky Sales</h3>
+                                    <br>
+                                    <canvas id="barChart" class="chartjs-render-monitor" ></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-12 col-md-12 adm-dash-ch ">
+                                <div class="tm-bg-primary-dark tm-block tm-block-taller">
+                                    <h3 class="tmadmin">Order Payment Method</h3>
+                                    <br>
+                                    <div id="pieChartContainer">
+                                        <canvas id="pieChart" class="chartjs-render-monitor" ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-12 col-md-12 adm-dash-chw">
+                                <div class="tm-bg-primary-dark tm-block tm-block-taller">
+                                    <h3 class="tmadmin">Products Category</h3>
+                                    <br>
+                                    <div id="donutChartContainer">
+                                        
+                                        <canvas id="donutChart2" class="chartjs-render-monitor"  ></canvas>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-
     </div>
-</div>
-
-</div>
+</section>

@@ -23,6 +23,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Import the "elevatezoom" plugin from a CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
     
     
 
@@ -56,32 +62,35 @@
     <script src="/js/Chart.min.js"></script>
     <script>
         Chart.defaults.global.defaultFontColor = 'black';
-        let ctxLine,
+        let ctxDonut,
             ctxBar,
             ctxPie,
-            optionsLine,
+            ctxDonut2,
+            optionsDonut,
             optionsBar,
             optionsPie,
-            configLine,
+            optionsDonut2,
+            configDonut,
             configBar,
             configPie,
-            lineChart;
-        barChart, donutChart,pieChart;
+            configDonut2,
+            donutChart;
+        barChart, pieChart,donutChart2;
 
         
         // DOM is ready
         $(function () {
-            drawLineChart(); // Line Chart
+            drawDonutChart(); // Line Chart
             drawBarChart(); // Bar Chart
             drawPieChart(); // Pie Chart
+            drawDonutChart2();
             
             $(window).resize(function () {
-                updateLineChart();
+                updateDonutChart();
                 updateBarChart();
             });
         })
     </script>
-
 
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
