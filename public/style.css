@@ -1452,3 +1452,107 @@ body {
 }
 
 
+
+
+
+
+
+
+
+.coucard{
+
+  width: 300px;
+  border:none;
+  height: 250px;
+  border-radius: 15px;
+  padding: 20px;
+  background-color:  rgb(105, 12, 162);
+}
+
+.coupercent{
+
+  font-size: 56px;
+  color: #fff;
+}
+
+.coudiscount{
+
+  font-size: 27px;
+  color: #fff;
+}
+
+
+.couline{
+
+  color: #fff;
+}
+
+
+
+
+
+.exitbutton {
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: red;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  background: #e62222;
+ }
+ 
+ .exitbutton , button span {
+  transition: 200ms;
+ }
+ 
+ .exitbutton .text {
+  transform: translateX(35px);
+  color: white;
+  font-weight: bold;
+ }
+ 
+ .exitbutton .exiticon {
+  position: absolute;
+  border-left: 1px solid #c41b1b;
+  transform: translateX(110px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+ 
+ .exitbutton svg {
+  width: 15px;
+  fill: #eee;
+ }
+ 
+ .exitbutton:hover {
+  background: #ff3636;
+ }
+ 
+ .exitbutton:hover .text {
+  color: transparent;
+ }
+ 
+ .exitbutton:hover .exiticon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(0);
+ }
+ 
+ .exitbutton:focus {
+  outline: none;
+ }
+ 
+ .exitbutton:active .exiticon svg {
+  transform: scale(0.8);
+ }
+
+
+
+
+

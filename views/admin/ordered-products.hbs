@@ -1,6 +1,7 @@
 
 
 
+
 <section class="rounded-3" style="background-color:  #d1cbcb;">
     <div class="text-center container py-5">
         <div class="row">
@@ -9,53 +10,113 @@
                     <div class="admin-dashhd text-center">
                         <h2 class="text-center admin-dasheadn  p-3">Ordered Products</h2>
                     </div>
+                    {{#each order}}
+                    <div class="card" style="border-radius: 10px;">
 
-                    <center>
-                        <div class="card-body">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                {{#ifeq this.status "Processing"}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Processing</p>
+                                {{/ifeq}}
+                                {{#ifeq this.status "Shipped"}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Shipped</p>
+                                {{/ifeq}}
+                                {{#ifeq this.status "Out for Delivery"}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Out for Delivery</p>
+                                {{/ifeq}}
+                                {{#ifeq this.status "Delivered"}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Delivered</p>
+                                {{/ifeq}}
+                                {{#ifeq this.status "Cancelled"}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Cancelled</p>
+                                {{/ifeq}}
+                                {{#ifeq this.status "Returned"}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Returned</p>
+                                {{/ifeq}}
 
-                            <div class="adcard">
-                                {{#each order}}
-                                {{#each product}}
-                                <h2 class="adh">Product Details</h2>
-                                <p class="adp"><strong>Product Name:</strong>{{name}}</p>
-                                <p class="adp"><strong>Quantity:</strong>{{quantity}}</p>
-                                <p class="adp"><strong>Price:</strong>₹{{price}}</p>
-                                {{/each}}
-                                {{/each}}
-
-                                {{#each order}}
-                                <div class="aduser">
-                                    <p class="adp"><strong>User</strong>
-                                    <h2>{{userDetails.0.name}}</h2>
-                                    </p>
+                                <p class="small mb-0"><strong>Order Id : {{orderId}}</strong></p>
+                            </div>
+                            {{#each product}}
+                            <div class="card shadow-0 border mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div
+                                            class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                                            <a href="/productview?id={{id}}" class="text-decoration-none text-dark">
+                                                <p class="mb-0">{{name}}</p>
+                                            </a>
+                                        </div>
+                                        <div
+                                            class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">Price : ₹{{price}}</p>
+                                        </div>
+                                        <div
+                                            class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                                            <p class="text-muted mb-0 small">Quantity : {{quantity}}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="adaddress">
-                                    <h2 class="adh">Shipping Address</h2>
-                                    <p class="adp">{{addressId}}</p>
+                            </div>
+                            {{/each}}
 
-                                </div>
 
-                                <div class="addelivery">
-                                    <h2 class="adh">Ordered Date</h2>
-                                    <p class="adp">{{date}}</p>
-                                </div>
-                                <div class="adadaddress">
+                            <div class="d-flex justify-content-between pt-2">
+                                <p class="fw-bold mb-0">Order Details</p>
+                                {{#ifeq this.coupon_app "Active"}}
+                                <p class=" mb-0"><span class="fw-bold me-4">Coupon</span>Applied</p>
+                                {{/ifeq}}
+                                {{#ifeq this.coupon_app "Inactive"}}
+                                <p class=" mb-0"><span class="fw-bold me-4">Coupon</span>Not Applied</p>
+                                {{/ifeq}}
+                                
+                            </div>
 
-                                    {{#ifeq status "Delivered"}}
-                                    <h5>Delivered Date</h5>
-                                    <h6>{{delivery_date}}</h6>
-                                    {{/ifeq}}
-                                    {{#ifnoteq status "Delivered"}}
-                                    <h5>Delivered Date</h5>
-                                    <h6>Not Delivered</h6>
-                                    {{/ifnoteq}}
-
-                                </div>
-                                {{/each}}
+                            <div class="d-flex justify-content-between pt-2">
+                                <p class=" mb-0">User Name : {{userDetails.0.name}}</p>
+                                <p class="mb-0"><span class="fw-bold me-4">Total</span>₹{{productPrice}}</p>
 
                             </div>
+
+                            <div class="d-flex justify-content-between">
+                                <p class=" mb-0">Shipping Address : {{addressId}}</p>
+                                <p class="mb-0"><span class="fw-bold me-4">Discount</span>₹{{couponDiscount}}
+                                </p>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <p class=" mb-0">Ordered Date : {{date}}</p>
+                                <p class="mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+
+                                {{#ifeq status "Delivered"}}
+                                <p class=" mb-0">Delivered Date : {{delivery_date}}</p>
+                                {{/ifeq}}
+                                {{#ifeq status "Cancelled"}}
+                                <p class=" mb-0"><strong>Cancelled</strong></p>
+                                {{/ifeq}}
+                                {{#ifeq status "Processing"}}
+                                <p class=" mb-0"><strong>Processing</strong></p>
+                                {{/ifeq}}
+                                {{#ifeq status "Shipped"}}
+                                <p class=" mb-0"><strong>Shipped</strong></p>
+                                {{/ifeq}}
+                                {{#ifeq status "Returned"}}
+                                <p class=" mb-0"><strong>Returned</strong></p>
+                                {{/ifeq}}
+                                {{#ifeq status "Out for Delivery"}}
+                                <p class=" mb-0"><strong>Out for Delivery</strong></p>
+                                {{/ifeq}}
+                            </div>
                         </div>
-                    </center>
+                        <div class="card-footer border-0 px-4 py-5"
+                            style="background-color: rgb(105, 12, 162); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                Total
+                                paid: <span class="h2 mb-0 ms-2">₹{{orderPrice}}</span></h5>
+                        </div>
+                    </div>
+                    {{/each}}
                 </div>
             </div>
         </div>
@@ -65,8 +126,3 @@
         </div>
     </div>
 </section>
-
-
-
-
-

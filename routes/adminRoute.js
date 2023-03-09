@@ -78,6 +78,7 @@ admin_route.get('/blockuser',verifyAdmin.isLogin,adminController.blockUser);
 admin_route.get('/unblockuser',verifyAdmin.isLogin,adminController.unBlockUser);
 
 admin_route.get('/orders',verifyAdmin.isLogin,adminController.loadUserOrders);
+admin_route.get('/returnscancels',verifyAdmin.isLogin,adminController.loadCancelReturns)
 admin_route.get('/viewproducts',verifyAdmin.isLogin,adminController.viewOrderedProducts);
 admin_route.get('/changestatus',verifyAdmin.isLogin,adminController.cancelOrder);
 

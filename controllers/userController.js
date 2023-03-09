@@ -709,6 +709,12 @@ const checkoutOrder = async (req, res) => {
                 }
             }
         ]);
+
+        const couponData = await Coupon.find({ 
+            userId: { $ne: req.session.user_id },
+            status: { $ne: "Inactive" } 
+          }).limit(5);
+          
         let subtotal = 0;
 
         grandTotal = 0;
@@ -718,14 +724,16 @@ const checkoutOrder = async (req, res) => {
             subtotal = subtotal + cartProduct.price * req.body.quantity[i];
             grandTotal = subtotal
         });
-
+        
+        console.log(couponData);
         res.render("checkout", {
             productDetails: cartData[0].Cartproduct,
             subtotal: subtotal,
             grandTotal: subtotal,
             offer: 0,
             address: address[0].Address,
-            logged: 1
+            logged: 1,
+            coupon:couponData
         });
     } catch (error) {
         console.log(error.message);
