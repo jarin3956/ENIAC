@@ -1554,5 +1554,26 @@ body {
 
 
 
+ .ados {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 
+.adosbtn {
+  color: white;
+  background-color: #5a5757;
+  padding: 10px 20px;
+}
+.adosbtn:hover{
+  background-color:  rgb(105, 12, 162);
+  color: rgb(204, 200, 200);
+}
 
+@media (max-width: 767px) { 
+  .adosbtn {
+    padding: 5px 10px;
+  }
+}

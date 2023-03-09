@@ -1,7 +1,3 @@
-
-
-
-
 <section class="rounded-3" style="background-color:  #d1cbcb;">
     <div class="text-center container py-5">
         <div class="row">
@@ -15,24 +11,16 @@
 
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                {{#ifeq this.status "Processing"}}
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Processing</p>
+                                {{#ifeq this.payment_method 1}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Payment Method : COD</p>
+
                                 {{/ifeq}}
-                                {{#ifeq this.status "Shipped"}}
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Shipped</p>
+
+                                {{#ifeq this.payment_method 2}}
+                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Payment Method : RAZORPAY</p>
                                 {{/ifeq}}
-                                {{#ifeq this.status "Out for Delivery"}}
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Out for Delivery</p>
-                                {{/ifeq}}
-                                {{#ifeq this.status "Delivered"}}
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Delivered</p>
-                                {{/ifeq}}
-                                {{#ifeq this.status "Cancelled"}}
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Cancelled</p>
-                                {{/ifeq}}
-                                {{#ifeq this.status "Returned"}}
-                                <p class="lead fw-normal mb-0" style="color: #a8729a;">Status : Returned</p>
-                                {{/ifeq}}
+
+
 
                                 <p class="small mb-0"><strong>Order Id : {{orderId}}</strong></p>
                             </div>
@@ -68,7 +56,7 @@
                                 {{#ifeq this.coupon_app "Inactive"}}
                                 <p class=" mb-0"><span class="fw-bold me-4">Coupon</span>Not Applied</p>
                                 {{/ifeq}}
-                                
+
                             </div>
 
                             <div class="d-flex justify-content-between pt-2">
@@ -79,12 +67,12 @@
 
                             <div class="d-flex justify-content-between">
                                 <p class=" mb-0">Shipping Address : {{addressId}}</p>
-                                <p class="mb-0"><span class="fw-bold me-4">Discount</span>₹{{couponDiscount}}
+                                <p class="mb-0"><span class="fw-bold me-4">Discount</span>-₹{{couponDiscount}}
                                 </p>
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <p class=" mb-0">Ordered Date : {{date}}</p>
+                                <p class=" mb-0">Ordered Date : {{dateFormatted}}</p>
                                 <p class="mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
                             </div>
                             <div class="d-flex justify-content-between mb-5">

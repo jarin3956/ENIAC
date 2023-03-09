@@ -299,10 +299,10 @@ const resendVerifyMail = async (req, res) => {
             if (updateOtp) {
                 res.redirect('/resendotpload?id=' + userData._id + '');
             } else {
-                res.render('resend-otp', { message: "error" });
+                res.render('resend-otp', { loggedout: 1, message: "error" });
             }
         } else {
-            res.render('resend-otp', { message: "email not found" });
+            res.render('resend-otp', { loggedout: 1, message: "email not found" });
         }
     } catch (error) {
         console.log(error.message);
@@ -368,7 +368,7 @@ const forgetVerify = async (req, res) => {
 
         if (userData) {
             if (userData.is_verified === 0) {
-                res.render('forget', { message: "Please verify your mail id" })
+                res.render('forget', { loggedout: 1, message: "Please verify your mail id" })
             } else {
                 const randomString = randomstring.generate();
                 const updatedData = await User.updateOne({ email: email }, { $set: { token: randomString } });
