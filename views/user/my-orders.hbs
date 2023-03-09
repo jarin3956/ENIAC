@@ -10,30 +10,12 @@
                 <div>
                   {{#if length}}
                   {{#each myorders}}
-                  <div class="card" style="border-radius: 10px;">
+                  <div class="card" style="border-radius: 10px; background-color: rgb(217, 210, 221);">
 
                     <div class="card-body p-4">
                       <div class="d-flex justify-content-between align-items-center mb-4">
-                        <p class="lead fw-normal mb-0" style="color: rgb(105, 12, 162);"><strong>Order Summary</strong>
-                        </p>
-                        {{#ifeq this.status "Processing"}}
-                        <h5 class="text-muted">Processing</h5>
-                        {{/ifeq}}
-                        {{#ifeq this.status "Shipped"}}
-                        <h5 class="text-warning">Shipped</h5>
-                        {{/ifeq}}
-                        {{#ifeq this.status "Out for Delivery"}}
-                        <h5 class="text-info">Out for Delivery</h5>
-                        {{/ifeq}}
-                        {{#ifeq this.status "Delivered"}}
-                        <h5 class="text-success">Delivered</h5>
-                        {{/ifeq}}
-                        {{#ifeq this.status "Cancelled"}}
-                        <h5 class="text-danger">Cancelled</h5>
-                        {{/ifeq}}
-                        {{#ifeq this.status "Returned"}}
-                        <h5 class="text-primary">Returned</h5>
-                        {{/ifeq}}
+                        
+                        
 
                       </div>
                       {{#each product}}
@@ -52,13 +34,106 @@
                               <p class="text-muted mb-0 small">Quantity : {{quantity}}</p>
                             </div>
                           </div>
+                          <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                          <div class="row d-flex align-items-center">
+                            <div class="col-md-2">
+                              <p class="text-muted mb-0 small">Track Order</p>
+                            </div>
+                            <div class="col-md-10">
+                              <div class="progress" style="height: 6px; border-radius: 16px;">
+                                {{#ifeq ../status "Processing"}}
+                                <div class="progress-bar" role="progressbar"
+                                  style="width: 15%; border-radius: 16px; background-color: rgb(105, 12, 162);"
+                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Shipped"}}
+                                <div class="progress-bar" role="progressbar"
+                                  style="width: 39%; border-radius: 16px; background-color: rgb(105, 12, 162);"
+                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Out for Delivery"}}
+                                <div class="progress-bar" role="progressbar"
+                                  style="width: 64%; border-radius: 16px; background-color: rgb(105, 12, 162);"
+                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Delivered"}}
+                                <div class="progress-bar" role="progressbar"
+                                  style="width: 100%; border-radius: 16px; background-color: rgb(105, 12, 162);"
+                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Cancelled"}}
+                                <div class="progress-bar" role="progressbar"
+                                  style="width: 100%; border-radius: 16px; background-color: #FF0000 ;"
+                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Returned"}}
+                                <div class="progress-bar" role="progressbar"
+                                  style="width: 100%; border-radius: 16px; background-color: rgb(12, 69, 162);"
+                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                                {{/ifeq}}
+                                
+                                
+                              </div>
+                              <div class="d-flex justify-content-around mb-1">
+                                
+                                {{#ifeq ../status "Cancelled"}}
+                                <p class="text-danger mt-1 mb-0 small ms-xl-5"><strong>Cancelled</strong></p>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Returned"}}
+                                <p class="text-primary mt-1 mb-0 small ms-xl-5"><strong>Returned</strong></p>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Processing"}}
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Processing</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Shipped</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Shipped"}}
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5"  >Processing</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Shipped</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Out for Delivery"}}
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Processing</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Shipped</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                {{/ifeq}}
+                                {{#ifeq ../status "Delivered"}}
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Processing</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Shipped</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivery</p>
+                                <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                {{/ifeq}}
+                                
+                                
+                                
+                                
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       {{/each}}
 
+                      
+
                       <div class="d-flex justify-content-between pt-2">
-                        <a href="/myorderdetails?id={{this.id}}" class="text-primary text-decoration-none"><strong>Order
-                            Details</strong></a>
+                        
+                        <a class="logbutton text-decoration-none text-white "  href="/myorderdetails?id={{this.id}}"
+                        role="button">Order Details
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+
+                        </div>
+                    </a>    
 
 
 
@@ -67,6 +142,7 @@
                         <a href="/cancelreturnorder?id={{this._id}}" class="text-danger text-decoration-none"
                           data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}"><strong>Cancel
                             Order</strong></a>
+                            
                         {{/ifeq}}
 
                         {{#ifeq this.status "Shipped"}}
@@ -178,6 +254,7 @@
                     </div>
                   </div>
                   {{/ifeq}}
+                  <br>
 
                   {{/each}}
                   {{else}}
@@ -195,11 +272,6 @@
     </div>
   </div>
 </section>
-
-
-
-
-
 
 
 

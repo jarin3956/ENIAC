@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="cccoupon">
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                        Offer
+                                        Discount
                                         <h3 id="offer" class="fw-normal">{{offer}}</h3>
                                     </li>
 
@@ -89,28 +89,38 @@
                                         <div class="card-header py-3">
                                             <h5 class="mb-0">Apply Promo Code</h5>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body" style="max-width: 500px;" >
 
                                             <ul class="list-group list-group-flush">
 
                                                 <li
                                                     class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                                                    Code
-                                                    <input type="text" id="couponCode" name="coupon">
+                                                    Coupon Code :
+                                                    <input type="text" id="couponCode" class="form-control" name="coupon">
                                                     <br>
                                                 </li>
                                                 <br>
                                             </ul>
-                                            <button class="btn the-userbutton btn-lg" onclick="checkCoupon()">
+                                            <div class="d-flex justify-content-center">
+                                                <h3 class="text-danger" id="errorMessage" ></h3>
+                                                
+                                                <h3 class="text-success" id="successMessage" ></h3>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between m-3" >
+                                                <button class="btn the-userbutton btn-lg" onclick="checkCoupon()">
                                                 Apply Code
                                             </button>
-                                            <br>
-                                            <div class="d-flex justify-content-center">
-                                                <span class="text-danger" id="errorMessage"></span>
-                                            </div>
-                                            
+                                            <button class="logbutton text-white " data-bs-toggle="modal" href="#exampleModalToggleC">View Coupons
+                                                <div class="arrow-wrapper">
+                                                    <div class="arrow"></div>
 
-                                        </div>
+                                                </div>
+                                            </button>
+                                            </div> 
+                                        
+                                        
                                     </div>
                                 </div>
 
@@ -148,6 +158,51 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModalToggleC" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="d-flex justify-content-end m-3">
+                   <button class="noselect exitbutton " data-bs-dismiss="modal" type="button">
+                        <span class="text">Exit</span>
+                        <span class="exiticon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body ">
+                    <center>
+                        <h5 class="p-3"><strong>These are some coupons</strong></h5>
+                    </center>
+                    
+
+                    {{#each coupon}}
+                    
+                    <center>
+                        <div class="coucard">
+                        <div class="text-center">
+                            <div class="d-flex flex-row text-center">
+                                
+                                <div class="d-flex flex-column ml-1">
+                                    <h1 class="mb-0 coupercent">{{this.offer}}%</h1>
+                                    <span class="coudiscount">Discount</span>
+                                </div>
+                            </div>   
+                        </div>
+                        <hr class="couline">
+                        <span class="text-white">Use : {{this.name}}</span>
+                        
+                    </div>
+                    
+                    </center>
+                    <br>
+                    {{/each}}
+                </div>
+                
             </div>
         </div>
     </div>
@@ -195,23 +250,29 @@
         }
         else {
 
-
-            let offer = document.getElementById("offer").innerHTML = Number(response)
+            
+            let dis = Number(response)
             console.log(Number(response))
 
             let subtotal = document.getElementById('subtotal').value
 
             let gtotal = document.getElementById('gtotal').innerHTML
 
-            const amt = Number(subtotal) * Number(offer) / 100
+            const amt = Number(subtotal) * Number(dis) / 100
+
+            
 
             gtotal = gtotal - amt
 
             finalPriceAmount = gtotal;
             
             console.log(gtotal+"HAI")
+            
 
             document.getElementById('gtotal').innerHTML = gtotal
+            let offer = document.getElementById("offer").innerHTML = "-" + amt
+
+            document.getElementById("successMessage").innerHTML = "Coupon Applied Successfully";
 
         }
     }

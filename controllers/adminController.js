@@ -510,8 +510,21 @@ const deleteBanner = async (req, res) => {
 
 const loadUserOrders = async (req, res) => {
     try {
-        const orderData = await Order.find({}).sort({ _id: -1 }).lean()
+    
+        const orderData = await Order.find({ status: { $in: ["Delivered", "Out for Delivery", "Processing", "Shipped"] } }).sort({ _id: -1 }).lean();
         res.render('user-orders', { orderData: orderData, admin: 1 });
+
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+
+const loadCancelReturns = async (req, res) => {
+    try {
+    
+        const orderData = await Order.find({ status: { $in: ["Returned", "Cancelled"] } }).sort({ _id: -1 }).lean();
+        res.render('cancel-returns', { orderData: orderData, admin: 1 });
 
     } catch (error) {
         console.log(error.message)
@@ -893,5 +906,6 @@ module.exports = {
     restoreCoupon,
     reports,
     adminDashboard,
-    filteringOrder
+    filteringOrder,
+    loadCancelReturns
 }

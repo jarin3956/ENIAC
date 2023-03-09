@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="card card-default">
                     <div class="admin-dashhd text-center">
-                        <h2 class="text-center admin-dasheadn  p-3"  >Orders</h2>
+                        <h2 class="text-center admin-dasheadn  p-3" >Cancel/Returns</h2>
                     </div>
 
                     <div class="card-body">
@@ -18,7 +18,7 @@
                                         <th>Status</th>
                                         <th>Order Price</th>
                                         <th>Offer Price</th>
-                                        <th>Action</th>
+                                        
                                     </tr>
                                 </thead>
 
@@ -40,40 +40,17 @@
                                             {{/ifeq}}
                                         </td>
                                         <td>
-                                            {{#ifeq this.status "Processing"}}
-                                            <h5 class="text-muted">Processing</h5>
+                                            {{#ifeq this.status "Cancelled"}}
+                                            <h5 class="text-danger">Cancelled</h5>
                                             {{/ifeq}}
-                                            {{#ifeq this.status "Shipped"}}
-                                            <h5 class="text-warning">Shipped</h5>
+                                            {{#ifeq this.status "Returned"}}
+                                            <h5 class="text-primary">Returned</h5>
                                             {{/ifeq}}
-                                            {{#ifeq this.status "Out for Delivery"}}
-                                            <h5 class="text-info">Out for Delivery</h5>
-                                            {{/ifeq}}
-                                            {{#ifeq this.status "Delivered"}}
-                                            <h5 class="text-success">Delivered</h5>
-                                            {{/ifeq}}
-                                            
                                         </td>
                                         <td>₹{{productPrice}}</td>
                                         <td>₹{{this.orderPrice}}</td>
-
-                                        <td>
-
-                                            {{#ifeq this.status "Processing"}}
-                                            <a href="/admin/changestatus?id={{this._id}}" class="btn btn-warning ">Ship
-                                                Order</a>
-                                            {{/ifeq}}
-                                            {{#ifeq this.status "Shipped"}}
-                                            <a href="/admin/changestatus?id={{this._id}}" class="btn btn-primary">Out
-                                                for
-                                                Delivery</a>
-                                            {{/ifeq}}
-                                            {{#ifeq this.status "Out for Delivery"}}
-                                            <a href="/admin/changestatus?id={{this._id}}"
-                                                class="btn btn-primary">Deliver
-                                                Order</a>
-                                            {{/ifeq}}
-                                        </td>
+                                        
+                                        
                                     </tr>
                                     {{/each}}
                                 </tbody>
