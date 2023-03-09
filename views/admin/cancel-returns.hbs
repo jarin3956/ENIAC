@@ -4,7 +4,15 @@
             <div class="col-12">
                 <div class="card card-default">
                     <div class="admin-dashhd text-center">
-                        <h2 class="text-center admin-dasheadn  p-3" >Cancel/Returns</h2>
+                        <h2 class="text-center admin-dasheadn  p-3"  >Orders</h2>
+                    </div>
+                    <div class="ados d-flex justify-content-center p-2">
+                        <a href="orders" class="btn  adosbtn">Processing</a>
+                        <a href="shipped" class="btn  adosbtn">Shipped</a>
+                        <a href="outfordelivery" class="btn  adosbtn">Out for Delivery</a>
+                        <a href="delivered" class="btn  adosbtn">Delivered</a>
+                        <a href="cancelled" class="btn  adosbtn">Cancelled</a>
+                        <a href="returns" class="btn  adosbtn">Returns</a>
                     </div>
 
                     <div class="card-body">
@@ -12,12 +20,14 @@
                             <table id="basic-data-table" class="table nowrap" style="width:100%">
                                 <thead>
                                     <tr>
+                                        
                                         <th>Order id</th>
                                         <th>Products</th>
-                                        <th>Payment Method</th>
+                                        <th>Date</th>
                                         <th>Status</th>
                                         <th>Order Price</th>
                                         <th>Offer Price</th>
+                                        
                                         
                                     </tr>
                                 </thead>
@@ -27,24 +37,19 @@
                                     {{#each orderData}}
                                     <tr>
                                         <td>{{this.orderId}}</td>
-                                        <td> <a href="/admin/viewproducts?id={{this._id}}" class="btn btn-success">View
-                                                Products</a>
+                                        <td> 
+                                            <a href="/admin/viewproducts?id={{this._id}}" class="btn btn-success">More info</a>
                                         </td>
-                                        <td>
-                                            {{#ifeq this.payment_method 1}}
-                                            <h5 class="text-success">COD</h5>
-                                            {{/ifeq}}
-
-                                            {{#ifeq this.payment_method 2}}
-                                            <h5 class="text-success">RAZORPAY</h5>
-                                            {{/ifeq}}
-                                        </td>
+                                        <td>{{this.dateFormatted}}</td>
                                         <td>
                                             {{#ifeq this.status "Cancelled"}}
                                             <h5 class="text-danger">Cancelled</h5>
                                             {{/ifeq}}
                                             {{#ifeq this.status "Returned"}}
                                             <h5 class="text-primary">Returned</h5>
+                                            {{/ifeq}}
+                                            {{#ifeq this.status "Delivered"}}
+                                            <h5 class="text-success">Delivered</h5>
                                             {{/ifeq}}
                                         </td>
                                         <td>₹{{productPrice}}</td>

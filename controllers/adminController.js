@@ -510,8 +510,11 @@ const deleteBanner = async (req, res) => {
 
 const loadUserOrders = async (req, res) => {
     try {
-    
-        const orderData = await Order.find({ status: { $in: ["Delivered", "Out for Delivery", "Processing", "Shipped"] } }).sort({ _id: -1 }).lean();
+
+        const orderData = await Order.find({ status: "Processing" }).sort({ _id: -1 }).lean();
+        orderData.forEach(order => {
+            order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+        });
         res.render('user-orders', { orderData: orderData, admin: 1 });
 
     } catch (error) {
@@ -520,11 +523,63 @@ const loadUserOrders = async (req, res) => {
 }
 
 
-const loadCancelReturns = async (req, res) => {
+const loadShipped = async (req, res) => {
     try {
-    
-        const orderData = await Order.find({ status: { $in: ["Returned", "Cancelled"] } }).sort({ _id: -1 }).lean();
+        const orderData = await Order.find({ status: "Shipped" }).sort({ _id: -1 }).lean();
+        orderData.forEach(order => {
+            order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+        });
+        res.render('user-orders', { orderData: orderData, admin: 1 });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const outForDelivery = async (req, res) => {
+    try {
+        const orderData = await Order.find({ status: "Out for Delivery" }).sort({ _id: -1 }).lean();
+        orderData.forEach(order => {
+            order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+        });
+        res.render('user-orders', { orderData: orderData, admin: 1 });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const loadDelivered = async (req, res) => {
+    try {
+        const orderData = await Order.find({ status: "Delivered" }).sort({ _id: -1 }).lean();
+        orderData.forEach(order => {
+            order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+        });
         res.render('cancel-returns', { orderData: orderData, admin: 1 });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const loadCancelled = async (req, res) => {
+    try {
+        const orderData = await Order.find({ status: "Cancelled" }).sort({ _id: -1 }).lean();
+        orderData.forEach(order => {
+            order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+        });
+        res.render('cancel-returns', { orderData: orderData, admin: 1 });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const loadReturns = async (req, res) => {
+    try {
+
+        const orderData = await Order.find({ status: "Returned" }).sort({ _id: -1 }).lean();
+        orderData.forEach(order => {
+            order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+        });
+        res.render('cancel-returns', { orderData: orderData, admin: 1 });
+
 
     } catch (error) {
         console.log(error.message)
@@ -547,6 +602,10 @@ const viewOrderedProducts = async (req, res) => {
                 }
             }])
 
+            orderdata.forEach(order => {
+                order.dateFormatted = moment(order.date).format('DD-MM-YYYY');
+            });    
+
         res.render('ordered-products', { admin: 1, order: orderdata });
 
     } catch (error) {
@@ -566,12 +625,14 @@ const cancelOrder = async (req, res) => {
                     status: "Shipped"
                 }
             })
+            res.redirect('/admin/orders');
         } else if (orderData.status === "Shipped") {
             const deliverOrder = await Order.findOneAndUpdate({ _id: id }, {
                 $set: {
                     status: "Out for Delivery"
                 }
             })
+            res.redirect('/admin/shipped');
         } else if (orderData.status === "Out for Delivery") {
             const deliveredDate = new Date()
             const date = deliveredDate
@@ -581,8 +642,9 @@ const cancelOrder = async (req, res) => {
                     delivery_date: date
                 }
             })
+            res.redirect('/admin/outfordelivery');
         }
-        res.redirect('/admin/orders');
+
     } catch (error) {
         console.log(error.message)
     }
@@ -683,9 +745,9 @@ const reports = async (req, res) => {
         }
         const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
 
-        // orderdataFilter.forEach(order => {
-        //     order.deliveryDateFormatted = moment(order.delivery_date).format('DD-MM-YYYY');
-        // });
+        //  orderdataFilter.forEach(order => {
+        //      order.deliveryDateFormatted = moment(order.delivery_date).format('DD-MM-YYYY');
+        //  });
 
         res.render('reports', { admin: 1, orderdata: orderdataFilter, totalSales: totalSales });
 
@@ -702,7 +764,7 @@ const filteringOrder = async (req, res) => {
 
 
         orderdataFilter = await Order.find(
-            // {$or:[{
+
             {
                 $and: [
                     {
@@ -717,6 +779,36 @@ const filteringOrder = async (req, res) => {
                     }]
             });
 
+
+        // const orderdata = await Order.aggregate([
+        //     {
+        //         $match: {
+        //             status: "Delivered",
+        //             $and: [
+        //                 {
+        //                     delivery_date: {
+        //                         $gt: reqDate
+        //                     }
+        //                 },
+        //                 {
+        //                     delivery_date: {
+        //                         $lt: toDate
+        //                     }
+        //                 }
+        //             ]
+        //         }
+        //     },
+        //     {
+        //         $group: {
+        //             _id: null,
+        //             totalSales: { $sum: "$orderPrice" }
+        //         }
+        //     }
+        // ]);
+
+        // const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
+
+        //console.log(totalSales + "filtered sales data");
         console.log(reqDate, toDate);
         console.log(orderdataFilter);
 
@@ -822,27 +914,27 @@ const adminDashboard = async (req, res) => {
 
         const userData = await Product.aggregate([
             {
-              $lookup: {
-                from: "categories",
-                localField: "category",
-                foreignField: "_id",
-                as: "category"
-              }
+                $lookup: {
+                    from: "categories",
+                    localField: "category",
+                    foreignField: "_id",
+                    as: "category"
+                }
             },
             {
-              $unwind: "$category"
+                $unwind: "$category"
             },
             {
-              $group: {
-                _id: "$category.name",
-                count: { $sum: 1 }
-              }
+                $group: {
+                    _id: "$category.name",
+                    count: { $sum: 1 }
+                }
             }
-          ]);
-        
-          const categoryNames = userData.map(data => data._id);
-          const productCounts = userData.map(data => data.count);
-        
+        ]);
+
+        const categoryNames = userData.map(data => data._id);
+        const productCounts = userData.map(data => data.count);
+
 
         res.json({
             pie: Piechart,
@@ -852,7 +944,7 @@ const adminDashboard = async (req, res) => {
                 cancelled,
                 returned
             },
-            proC:{
+            proC: {
                 categoryNames,
                 productCounts
             }
@@ -907,5 +999,9 @@ module.exports = {
     reports,
     adminDashboard,
     filteringOrder,
-    loadCancelReturns
+    loadReturns,
+    loadShipped,
+    outForDelivery,
+    loadDelivered,
+    loadCancelled
 }
