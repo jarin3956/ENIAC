@@ -179,8 +179,6 @@
                     <center>
                         <h5 class="p-3"><strong>These are some coupons</strong></h5>
                     </center>
-                    
-
                     {{#each coupon}}
                     
                     <center>
@@ -196,7 +194,8 @@
                         </div>
                         <hr class="couline">
                         <span class="text-white">Use : {{this.name}}</span>
-                        <button class="btn btn-primary" onclick="copyToClipboard('{{this.name}}')">Copy Name</button>
+                        <button class="copybutton" onclick="copyToClipboard('{{this.name}}')">Copy</button>
+                        <br>
                         <span class="text-white">Max discount upto {{this.limit}}</span>
                     </div>
                     
