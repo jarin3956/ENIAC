@@ -1618,3 +1618,17 @@ body {
   margin-left: 5px; /* Set the margin between the search input and button */
 }
 
+
+.copybutton{
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  color:rgb(105, 12, 162) ;
+}
+
+.copybutton:hover{
+  background-color: rgb(105, 12, 162);
+  border: none;
+  border-radius: 20px;
+  color: white;
+}
