@@ -18,7 +18,7 @@
                                     <span class="text-danger">{{message}}</span>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <input class="form-control" type="text" name="name"
+                                            <input class="form-control" type="text" name="name" pattern="^[a-zA-Z0-9]{1,45}$" title="Please enter alphabets and numbers only, with a maximum length of 45 characters"
                                                 placeholder="enter product name" required>
                                             <label class="form-label" for="form3Example1c">Name</label>
                                         </div>
@@ -38,21 +38,21 @@
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <input class="form-control" type="text" name="stock" placeholder="enter stock quantity" required>
+                                            <input class="form-control" type="text" name="stock" placeholder="enter stock quantity" pattern="^[0-9]{1,4}$" title="Please enter a number between 0 and 1000" required>
                                             <label class="form-label" for="form3Example1c">Stock Quantity</label>
                                         </div>
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <input class="form-control" type="text" name="price" placeholder="enter price" required>
+                                            <input class="form-control" type="text" name="price" placeholder="enter price" pattern="^[0-9]+$" title="Please enter only numbers" required>
                                             <label class="form-label" for="form3Example1c">Price</label>
                                         </div>
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <input class="form-control" type="text" name="fakeprice" placeholder="enter fake price" required>
+                                            <input class="form-control" type="text" name="fakeprice" placeholder="enter fake price" pattern="^[0-9]+$" title="Please enter only numbers" required>
                                             <label class="form-label" for="form3Example1c">Fake price</label>
                                         </div>
                                     </div>

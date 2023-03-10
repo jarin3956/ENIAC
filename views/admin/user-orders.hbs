@@ -16,8 +16,8 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="basic-data-table">
-                            <table id="basic-data-table" class="table nowrap" style="width:100%">
+                        <div  >
+                            <table class="table nowrap" style="width:100%" id="orderTable" >
                                 <thead>
                                     <tr>
                                         <th>Order id</th>
@@ -35,7 +35,8 @@
                                     {{#each orderData}}
                                     <tr>
                                         <td>{{this.orderId}}</td>
-                                        <td> <a href="/admin/viewproducts?id={{this._id}}" class="btn btn-success">More info</a>
+                                        <td> <a href="/admin/viewproducts?id={{this._id}}" class="btn btn-success">More
+                                                info</a>
                                         </td>
                                         <td>{{this.dateFormatted}}</td>
                                         <td>
@@ -77,6 +78,9 @@
                                     {{/each}}
                                 </tbody>
                             </table>
+
+                        
+
                         </div>
                     </div>
                 </div>
@@ -86,11 +90,14 @@
 </section>
 
 
-
-
-
 <script>
     $(document).ready(function () {
-        $('#basic-data-table').DataTable();
+    $('#orderTable').DataTable({
+        "paging": true,
+        "pageLength": 10, // Display 2 records per page
+        "order": [[2, "desc"]] ,// Sort by the 3rd column (date) in descending order
+        "lengthChange": false 
     });
+});
+
 </script>

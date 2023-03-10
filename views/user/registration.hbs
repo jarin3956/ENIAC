@@ -15,7 +15,7 @@
 
                                         <div class="form-outline flex-fill mb-0">
                                             <input class="form-control" type="text" name="name" placeholder="enter name"
-                                                pattern="^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$" required>
+                                                pattern="^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$" required title="Please enter a valid name with only letters and characters">
                                             <label class="form-label" for="form3Example1c">Your Name</label>
                                         </div>
                                     </div>
@@ -24,7 +24,7 @@
 
                                         <div class="form-outline flex-fill mb-0">
                                             <input class="form-control" type="text" name="email"
-                                                placeholder="enter mail id" pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+                                                placeholder="enter mail id" pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$" title="Please enter a valid email address"
                                                 required>
                                             <label class="form-label" for="form3Example3c">Your Email</label>
                                         </div>
@@ -34,7 +34,7 @@
 
                                         <div class="form-outline flex-fill mb-0">
                                             <input class="form-control" type="text" name="mob"
-                                                placeholder="enter mobile" required>
+                                                placeholder="enter mobile" pattern="[0-9]{10}" required title="Please enter a valid 10-digit mobile number">
                                             <label class="form-label" for="form3Example4c">Mobile</label>
                                         </div>
                                     </div>
@@ -42,8 +42,8 @@
 
                                         <div class="form-outline flex-fill mb-0">
                                             <input class="form-control" type="password" name="password"
-                                                placeholder="include one [a-z,A-Z,0-9,!@#\$%\^&\*]"
-                                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$"
+                                                placeholder="enter password"
+                                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$" title="Password must be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, one number, and one special character (!@#$%^&*)"
                                                 required>
 
                                             <label class="form-label" for="form3Example4c">Password</label>
@@ -53,7 +53,7 @@
 
                                         <div class="form-outline flex-fill mb-0">
                                             <input class="form-control" type="password" name="conpassword"
-                                                placeholder="confirm password" pattern="^.{6,}$" required>
+                                                placeholder="confirm password" pattern="^.{6,}$" title="Reenter the password correctly" required>
                                             <label class="form-label" for="form3Example4c">Confirm Password</label>
                                         </div>
                                     </div>

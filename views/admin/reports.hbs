@@ -29,6 +29,11 @@
                         </button>
 
                     </div>
+                    
+                    <div class="d-flex justify-content-center p-3">
+                        <h4 class="eniac-text"><i class="fa-solid fa-truck"></i> TotalSales :₹{{totalSales}}
+                        </h4>
+                    </div>
                     <form action="/admin/filter" method="post">
                         <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
                         <input type="date" name="fromDate">
@@ -39,9 +44,10 @@
 
                     <div class="card-body" id="invoice">
                         <div>
-
-
-                            <table id="basic-data-table" class="table nowrap" style="width:100%">
+                            <div class="d-flex justify-content-center">
+                        <h5 class="eniac-text">eniacecommerce.online</h5>
+                    </div>
+                            <table id="reportsTable" class="table nowrap" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Order Id</th>
@@ -64,14 +70,9 @@
                                     {{/each}}
                                 </tbody>
                             </table>
-                            <div class="d-flex justify-content-center p-3">
-                                <h4 class="eniac-text"><i class="fa-solid fa-truck"></i> TotalSales :₹{{totalSales}}
-                                </h4>
-                            </div>
+
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <h3 class="eniac-text">eniac Ecommerce</h3>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -101,5 +102,18 @@
             })
     }
 
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#reportsTable').DataTable({
+            "paging": true,
+            "pageLength": 10, // Display 2 records per page
+            "order": [[2, "desc"]], // Sort by the 3rd column (date) in descending order
+            "searching": false, // Disable the search bar
+            "lengthChange": false // Disable the "Show entries" dropdown
+        });
+    });
 
 </script>
