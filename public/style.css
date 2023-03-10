@@ -1577,3 +1577,44 @@ body {
     padding: 5px 10px;
   }
 }
+
+
+
+
+
+.dataTables_wrapper .dataTables_info {
+  margin-bottom: 20px; /* Add margin at the bottom of the info element */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  text-decoration: none; /* Remove the underline */
+  background-color: rgb(105, 12, 162); /* Set the background color */
+  color: #ece8e8; /* Set the text color */
+  border-radius: 5px; /* Set the border radius */
+  padding: 5px 10px; /* Set the padding */
+  margin-right: 5px; /* Set the margin between buttons */
+  
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  
+  background-color: #ece8e8; /* Set the background color of the active button */
+  color: rgb(105, 12, 162); /* Set the text color of the active button */
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"] {
+  margin: 10px;
+  border: 1px solid rgb(105, 12, 162); /* Set the border color and width */
+  padding: 5px; /* Set the padding */
+  border-radius: 5px; /* Set the border radius */
+}
+
+.dataTables_wrapper .dataTables_filter button[type="submit"] {
+  background-color: rgb(105, 12, 162); /* Set the background color */
+  color: #fff; /* Set the text color */
+  border: none; /* Remove the border */
+  border-radius: 5px; /* Set the border radius */
+  padding: 5px 10px; /* Set the padding */
+  margin-left: 5px; /* Set the margin between the search input and button */
+}
+

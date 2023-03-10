@@ -19,7 +19,7 @@
                                         <div class="form-outline flex-fill mb-0">
 
                                             <input class="form-control" type="text" name="name"
-                                                placeholder="enter coupon name" pattern="^(?=.*[A-Z])(?=.*\d).+$" required>
+                                                placeholder="enter coupon name" pattern="^(?=.*[A-Z])(?=.*\d).+$" title="Coupon name must be in uppercase " required>
                                             <label class="form-label" for="form3Example1c">Name</label>
                                         </div>
                                     </div>
@@ -27,10 +27,16 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
 
                                         <div class="form-outline flex-fill mb-0">
-                                            <input class="form-control" type="text" name="offer"
+                                            <input class="form-control" type="text" name="offer" pattern="^[0-9]{1,2}$" title="Please enter the offer with maximum 2 digits."
                                                 placeholder="enter offer" required>
                                             <label class="form-label" for="form3Example3c">Offer</label>
                                         </div>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input class="form-control" type="text" name="limit" pattern="^[0-9]{1,6}$" title="Please enter max discount amount with 1 to 6 digits" 
+                                                placeholder="maximum amount" required>
+                                            <label class="form-label" for="form3Example3c">Max Discount</label>
+                                        </div>
+                                        
                                     </div>
 
 

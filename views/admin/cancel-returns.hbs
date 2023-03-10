@@ -74,6 +74,11 @@
 
 <script>
     $(document).ready(function () {
-        $('#basic-data-table').DataTable();
+        $('#basic-data-table').DataTable({ 
+            "paging": true,
+            "pageLength": 10, 
+            "order": [[2, "desc"]] 
+        });
     });
 </script>
+

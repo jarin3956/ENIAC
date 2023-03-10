@@ -85,6 +85,10 @@
 
 <script>
     $(document).ready(function () {
-        $('#basic-data-table').DataTable();
+        $('#basic-data-table').DataTable({
+            "paging": true,
+            "pageLength": 10, // Display 2 records per page
+            "lengthChange": false 
+        });
     });
 </script>

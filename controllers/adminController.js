@@ -678,6 +678,7 @@ const insertCoupon = async (req, res) => {
             const coupon = new Coupon({
                 name: req.body.name,
                 offer: req.body.offer,
+                limit: req.body.limit,
                 status: "Active"
             });
             const couponData = await coupon.save();

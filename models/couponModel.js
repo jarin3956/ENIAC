@@ -12,6 +12,10 @@ const couponSchema = new Schema({
         type: Number,
         required: true
     },
+    limit: {
+        type: Number,
+        require:true
+    },
     status: {
         type: String,
         required: true

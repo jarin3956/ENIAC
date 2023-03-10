@@ -22,6 +22,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Offer</th>
+                                        <th>Max Amount</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -33,6 +34,7 @@
                                     <tr>
                                         <td>{{this.name}}</td>
                                         <td>{{this.offer}}%</td>
+                                        <td>₹{{limit}}</td>
                                         <td>{{this.status}}</td>
                                         <td>
                                             {{#ifeq this.status "Active"}}
@@ -85,6 +87,10 @@
 
 <script>
     $(document).ready(function () {
-        $('#basic-data-table').DataTable();
+        $('#basic-data-table').DataTable({
+            "paging": true,
+            "pageLength": 10, // Display 2 records per page
+            "lengthChange": false 
+        });
     });
 </script>

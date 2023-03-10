@@ -80,7 +80,7 @@ const resetPasswordMail = async (name, email, token) => {
             from: config.emailId,
             to: email,
             subject: 'For Reset password',
-            html: '<p>Hii ' + name + ' please click here to <a href="http://localhost:3000/forgetpassword?token=' + token + '"> Reset </a> your password.</p>'
+            html: '<p>Hii ' + name + ' please click here to <a href="https://eniacecommerce.online/forgetpassword?token=' + token + '"> Reset </a> your password.</p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
@@ -710,11 +710,11 @@ const checkoutOrder = async (req, res) => {
             }
         ]);
 
-        const couponData = await Coupon.find({ 
+        const couponData = await Coupon.find({
             userId: { $ne: req.session.user_id },
-            status: { $ne: "Inactive" } 
-          }).limit(5);
-          
+            status: { $ne: "Inactive" }
+        }).limit(5);
+
         let subtotal = 0;
 
         grandTotal = 0;
@@ -724,7 +724,7 @@ const checkoutOrder = async (req, res) => {
             subtotal = subtotal + cartProduct.price * req.body.quantity[i];
             grandTotal = subtotal
         });
-        
+
         console.log(couponData);
         res.render("checkout", {
             productDetails: cartData[0].Cartproduct,
@@ -733,7 +733,7 @@ const checkoutOrder = async (req, res) => {
             offer: 0,
             address: address[0].Address,
             logged: 1,
-            coupon:couponData
+            coupon: couponData
         });
     } catch (error) {
         console.log(error.message);
@@ -751,16 +751,14 @@ const validateCoupon = async (req, res) => {
 
         if (couponData && couponData.status == "Active") {
             offerPrice = couponData.offer
-
+            let maxDiscount = couponData.limit
             if (userData) {
                 res.json("fail")
             } else {
 
                 const CouponData = await Coupon.updateOne({ name: codeId }, { $push: { userId: req.session.user_id } })
 
-
-
-                res.json(offerPrice)
+                res.json({offerPrice,maxDiscount})
 
 
             }
@@ -794,12 +792,19 @@ const placeOrder = async (req, res) => {
 
         if (req.body.coupon) {
             gCoupon = req.body.coupon
-
+            
             const couponApplied = await Coupon.findOne({ name: req.body.coupon })
             gCouponAmount = couponApplied.offer
+            let maxDiscount = couponApplied.limit
             if (gCouponAmount && orderPrice) {
-                const amount = (orderPrice * gCouponAmount) / 100
-                finalTotal = orderPrice - amount
+                const amount = (orderPrice * gCouponAmount) / 100;
+                
+                if (amount >= maxDiscount) {
+                    finalTotal = orderPrice - maxDiscount;
+                }else{
+                    finalTotal = orderPrice - amount;
+                }
+
 
                 cApp = true;
 
@@ -820,9 +825,9 @@ const placeOrder = async (req, res) => {
             product: singleProduct,
             payment_method: String(payment),
             orderPrice: Number(finalTotal),
-            productPrice:Number(orderPrice),
-            couponDiscount:couponDiscount,
-            coupon_app:cApp ? "Active" : "Inactive"
+            productPrice: Number(orderPrice),
+            couponDiscount: couponDiscount,
+            coupon_app: cApp ? "Active" : "Inactive"
 
         };
 
@@ -898,9 +903,9 @@ const myOrderDetails = async (req, res) => {
         let oDate = moment(theDate).format('DD-MM-YYYY');
         let deliDate = moment(dDate).format('DD-MM-YYYY');
 
-        
-        
-        res.render('my-orderdetails', { myorders: orderData,oDate,deliDate, logged: 1 })
+
+
+        res.render('my-orderdetails', { myorders: orderData, oDate, deliDate, logged: 1 })
     } catch (error) {
         console.log(error.message)
     }
@@ -910,6 +915,11 @@ const cancelReturnOrder = async (req, res) => {
     try {
         const id = req.query.id;
         const orderData = await Order.findOne({ _id: id }).lean();
+        const pID=orderData.product;
+        pID.forEach(async(elem,i)=>{const reduceStock=await Product.updateOne({_id:elem.id},{
+              $inc:{
+               stock:+elem.quantity
+               }})})
 
         if (orderData.payment_method === "1") {
             if (orderData.status === "Delivered") {
@@ -976,6 +986,8 @@ const cancelReturnOrder = async (req, res) => {
 
 
 
+
+
         res.redirect('/myorders');
     } catch (error) {
         console.log(error.message);
@@ -1006,7 +1018,7 @@ const paymentVerify = async (req, res) => {
         let body = req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
 
         var crypto = require("crypto");
-        var expectedSignature = crypto.createHmac('sha256', config.razorPass )
+        var expectedSignature = crypto.createHmac('sha256', config.razorPass)
             .update(body.toString())
             .digest('hex');
         // console.log("sig received ", req.body.response.razorpay_signature);
@@ -1044,10 +1056,10 @@ const orderSuccess = async (req, res) => {
         const orderData = await Order.find({}).sort({ _id: -1 }).limit(1)
 
         const theDate = orderData[0].date
-        
+
         let oDate = moment(theDate).format('DD-MM-YYYY');
-        
-        res.render('order-success', { myorders: orderData,oDate, logged: 1 })
+
+        res.render('order-success', { myorders: orderData, oDate, logged: 1 })
     } catch (error) {
         console.log(error.message);
     }

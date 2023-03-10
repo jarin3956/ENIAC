@@ -52,16 +52,16 @@
                                         </td>
                                         <td>
                                             {{#if is_verified}}
-                                            <h4 class="text-success">verified</h4>
+                                            <h5 class="text-success">verified</h5>
                                             {{else }}
-                                            <h4 class="text-danger">not verified</h4>
+                                            <h5 class="text-danger">not verified</h5>
                                             {{/if}}
                                         </td>
                                         <td>
                                             {{#if blocked}}
-                                            <h4 class="text-danger">Blocked</h4>
+                                            <h5 class="text-danger">Blocked</h5>
                                             {{else}}
-                                            <h4 class="text-success">not blocked</h4>
+                                            <h5 class="text-success">not blocked</h5>
                                             {{/if}}
                                         </td>
                                     </tr>
@@ -103,6 +103,10 @@
 
 <script>
     $(document).ready(function () {
-        $('#basic-data-table').DataTable();
+        $('#basic-data-table').DataTable({
+            "paging": true,
+            "pageLength": 10, // Display 2 records per page
+            "lengthChange": false 
+        });
     });
 </script>
