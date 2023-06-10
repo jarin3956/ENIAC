@@ -725,7 +725,7 @@ const checkoutOrder = async (req, res) => {
             grandTotal = subtotal
         });
 
-        console.log(couponData);
+        
         res.render("checkout", {
             productDetails: cartData[0].Cartproduct,
             subtotal: subtotal,
@@ -815,7 +815,7 @@ const placeOrder = async (req, res) => {
         }
 
         const couponDiscount = orderPrice - finalTotal
-        console.log(couponDiscount);
+        
 
         let data = {
             userId: ObjectId(req.session.user_id),
@@ -1037,7 +1037,7 @@ const searchedData = async (req, res) => {
     try {
         const data = await Product.find({ name: { $regex: new RegExp(req.body.text, 'i') } });
 
-        console.log(data);
+        
         const length = data.length
         if (req.session.user_id) {
             res.render('searched', { products: data, logged: 1, length });

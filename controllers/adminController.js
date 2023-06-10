@@ -781,38 +781,9 @@ const filteringOrder = async (req, res) => {
             });
 
 
-        // const orderdata = await Order.aggregate([
-        //     {
-        //         $match: {
-        //             status: "Delivered",
-        //             $and: [
-        //                 {
-        //                     delivery_date: {
-        //                         $gt: reqDate
-        //                     }
-        //                 },
-        //                 {
-        //                     delivery_date: {
-        //                         $lt: toDate
-        //                     }
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     {
-        //         $group: {
-        //             _id: null,
-        //             totalSales: { $sum: "$orderPrice" }
-        //         }
-        //     }
-        // ]);
-
-        // const totalSales = orderdata.length > 0 ? orderdata[0].totalSales : 0;
-
-        //console.log(totalSales + "filtered sales data");
+        
         console.log(reqDate, toDate);
-        console.log(orderdataFilter);
-
+        
         filter = true;
         res.redirect('/admin/reports');
     } catch (error) {
