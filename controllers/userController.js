@@ -1037,7 +1037,9 @@ const searchedData = async (req, res) => {
     try {
         const data = await Product.find({ name: { $regex: new RegExp(req.body.text, 'i') } });
 
-        
+
+        console.log(data);
+
         const length = data.length
         if (req.session.user_id) {
             res.render('searched', { products: data, logged: 1, length });
