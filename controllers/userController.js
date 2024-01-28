@@ -80,7 +80,7 @@ const resetPasswordMail = async (name, email, token) => {
             from: config.emailId,
             to: email,
             subject: 'For Reset password',
-            html: '<p>Hii ' + name + ' please click here to <a href="https://eniacecommerce.online/forgetpassword?token=' + token + '"> Reset </a> your password.</p>'
+            html: '<p>Hii ' + name + ' please click here to <a href="https://eniac-ecommerce.onrender.com/forgetpassword?token=' + token + '"> Reset </a> your password.</p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
